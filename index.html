@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Quiz Game V14b</title>
+		
+		<script src="js/main.js"></script>
+		<script src="js/objects.js"></script>
+		
+		<!-- START OF HIT COUNTER CODE from 000webhost.com-->
+			<script language="JavaScript">
+			<!-- src="http://www.counter160.com/js.js?img=11" --  Include in script tag, and comment out javascript below to include counter on page -->
+				var data = '&r=' + escape(document.referrer) + '&n=' + escape(navigator.userAgent) + 
+					'&p=' + escape(navigator.userAgent) + '&g=' + escape(document.location.href); 
+				if (navigator.userAgent.substring(0,1)>'3') 
+					data = data + '&sd=' + screen.colorDepth + '&sw=' + escape(screen.width+'x'+screen.height); document.write('');
+			</script>
+		 
+				<!-- 
+				<a href="http://www.000webhost.com"><img src="http://www.counter160.com/images/11/left.png" alt="Free web hosting" border="0" align="texttop"></a>
+				<a href="http://www.hosting24.com"><img alt="Web hosting" src="http://www.counter160.com/images/11/right.png" border="0" align="texttop"></a>
+				-->
+		<!-- END OF HIT COUNTER CODE -->
+
+		<link rel="stylesheet" href="css/style.css"/>
+		<link href = 'http://fonts.googleapis.com/css?family=Iceland' rel='stylesheet' type='text/css'> 
+	</head>
+	
+	<body onload="game.prepare();">
+	
+		<div id="container">
+		
+			<div id="name">
+				Quiz Game
+			</div>
+		
+			<div id="canvasContainer">
+			<!-- Parent container for both "gameCanvas" and "questionContainer". 
+				Enures that offsetX and layerX are equivalent in player1.handleMouseMovement.
+			-->
+				<canvas id="gameCanvas" onclick="game.begin();" width="800px" height="400px"></canvas>
+		
+				<div id="questionContainer" style="display:none;">
+				
+					<div id="questionText" style="display:block;"></div>
+					
+					<div id="answerButtons" style="display:block;">
+						<button id="buttonA" onclick="button.clickA()"></button>
+						<button id="buttonB" onclick="button.clickB()"></button>
+						<button id="buttonC" onclick="button.clickC()"></button>
+						<button id="buttonD" onclick="button.clickD()"></button>
+					
+						<div id="answerIncorrect" style="display:none">That's incorrect :(</div>
+						<div id="answerCorrect" style="display:none">You are correct!</div>
+					</div>
+				
+				</div>
+			
+			</div>
+			
+			<div id="instructions"></div>
+			
+			<!-- <div id="source"><a href = "srcgame.html">Source code</a></div> -->
+		
+		</div>
+		
+	</body>
+	
+</html>

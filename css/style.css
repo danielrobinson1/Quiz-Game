@@ -1,0 +1,65 @@
+body {
+	background: #CCCCCC;
+	text-align: center;
+	padding: 0px;
+	color: #575757;
+	font: 14px/21px Arial, Helvetica, sans-serif;
+}
+
+p {
+	font: 14px/21px Arial, Helvetica, sans-serif;
+}
+
+#container {
+	position: relative;		/* The position of the child Divs will taken relative this Div */
+	width: 800px;
+	margin-left: auto;		/* Setting left and right margins to auto forces centering of the Div. I.e left and right margins are made equal */
+	margin-right: auto;
+}
+
+#gameCanvas {
+	background: #FFFFFF;
+	border: 1px solid black;
+	cursor: visible;
+	margin-left: 0px;
+}
+
+#canvasContainer {
+	position: relative;
+}
+
+#name {
+	margin: 0px;
+	font: 60px Arial;
+}
+
+#questionContainer {
+	background: #CFFFBF;
+	border: 1px solid black;
+	position: absolute;         /* Ensures that positioning of the Div is relative to the containing Div whose position is set to relative */
+	width: 90%;
+	left: 5%;                   /* We set the width of the Div to 90% of the canvas. Setting left to 5% has the effect of centering within the contatining Div */
+	top: 50%;
+}
+
+#questionText {
+	margin-top: 10px;
+	margin-bottom: 5px;
+}
+
+#answerCorrect {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	font: 25px serif;
+}
+
+#answerIncorrect {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	font: 25px serif;
+}
+
+#answerButtons {
+	margin-top: 5px;
+	margin-bottom: 10px;
+}
