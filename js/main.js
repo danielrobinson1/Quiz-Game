@@ -39,6 +39,10 @@ var ballSrc = ["img/yellow.png","img/red.png"];
  DESC Called periodically using setInterval. 
 */
 
+function randomlyCreateBallWithRandomSpeed() {
+	ball.create(probabilityBallCreated,ballSpeedFactor);
+}
+
 function updateScreen() {
 	canvas.clear();	
 	drawCharacters();
@@ -49,15 +53,26 @@ function drawCharacters() {
 	player1.draw();
 	ball.draw();
 }
-	
-function randomlyCreateBallWithRandomSpeed() {
-	ball.create(probabilityBallCreated,ballSpeedFactor);
-}
 
 function displayScoreAndTime() {
 	scoring.displayScore();
 	scoring.displayNoCollected();
 	timer.display();
+}
+
+function displayQuestionIfTargetReached() {
+// Check whether target number has been collected and display question. 
+// Note it is actually possible for the variable scoring.noCollected to go over target 
+// if the final ball is collected together with another in quick succession.
+	if (isTargetReached()) {
+		updateScreen();		//Check - Do we just need to update the score?
+		game.pauseTick();
+		question.display();
+	}
+}
+
+function isTargetReached() {
+	return scoring.noCollected >= targetToCollect;
 }
 
 function handleTick() {
@@ -68,17 +83,7 @@ function handleTick() {
 	//Handle Collisions
 	scoring.detectCollisions();
 	
-	// Check whether target number has been collected and display question. 
-	// Note it is actually possible for the variable scoring.noCollected to go over target 
-	// if the final ball is collected together with another in quick succession.
-	if (scoring.noCollected >= targetToCollect) {
-	
-		updateScreen();
-		
-		//Display question
-		game.pauseTick();
-		question.display();
-	}
+	displayQuestionIfTargetReached();
 	
 	// Check game over conditions
 	if (scoring.noCollected < 0 || timer.time < 0) {
