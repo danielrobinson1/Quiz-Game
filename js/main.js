@@ -10,7 +10,15 @@ var questionList = [
 	/*6*/ "Who is the president of the U.S.A?", "Barrack Obama", "B.A. Baracus", "Bacchus", "Buck Rogers",
 	/*7*/ "Who was the first man on the moon?", "Neil Armstrong", "Lance Armstrong", "Louis Armstrong", "Stretch Armstrong",
 	/*8*/ "Spell 'Morse' in Morse code.", "-- / --- / .-. / ... / .", ".-.. / . / .-- / .. / ...", "..-. / .-. / --- / ... / -", "--. / .- / -.. / --. / . / -", 
-	/*9*/ "What is the name of the robot in the film Short Circuit?", "Johnny 5", "Alpha 5", "Babylon 5", "Abz from 5ive"];
+	/*9*/ "What is the name of the robot in the film Short Circuit?", "Johnny 5", "Alpha 5", "Babylon 5", "Abz from 5ive",
+	
+	/*10*/ "Who wrote 'The Odyssey'?", "Homer", "Bart", "Lisa", "Maggie",
+	];
+
+	//trailing comma on last line of arraymay cause a fit to be thrown 
+	//in IE < 9 but is correct code.
+
+	
 	
 var probabilityBallCreated = 0.2;    	// Probability that an ball is created on a given tick.
 var ballSpeedFactor = 5;			   	// Determines max possible speed that enemies may be assigned.
