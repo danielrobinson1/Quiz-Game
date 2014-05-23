@@ -38,14 +38,19 @@ var ballSrc = ["img/yellow.png","img/red.png"];
  NAME handleTick
  DESC Called periodically using setInterval. 
 */
-function handleTick() {
-	
-	canvas.clear();	
-	
+
+function drawCharacters() {
 	//Draw characters
 	player1.draw("solid");
 	ball.create(probabilityBallCreated,ballSpeedFactor);
 	ball.draw();
+	}
+
+function handleTick() {
+	
+	canvas.clear();	
+	
+	drawCharacters();
 	
 	//Display scores and time
 	scoring.displayScore();
