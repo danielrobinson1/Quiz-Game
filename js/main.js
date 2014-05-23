@@ -39,8 +39,14 @@ var ballSrc = ["img/yellow.png","img/red.png"];
  DESC Called periodically using setInterval. 
 */
 
+function updateScreen() {
+	canvas.clear();	
+	drawCharacters();
+	displayScoreAndTime();
+}
+
 function drawCharacters() {
-	player1.draw("solid");
+	player1.draw();
 	ball.draw();
 }
 	
@@ -48,16 +54,16 @@ function randomlyCreateBallWithRandomSpeed() {
 	ball.create(probabilityBallCreated,ballSpeedFactor);
 }
 
-function handleTick() {
-	
-	canvas.clear();	
-	randomlyCreateBallWithRandomSpeed();
-	drawCharacters();
-	
-	//Display scores and time
+function displayScoreAndTime() {
 	scoring.displayScore();
 	scoring.displayNoCollected();
 	timer.display();
+}
+
+function handleTick() {
+	
+	randomlyCreateBallWithRandomSpeed();
+	updateScreen();
 	
 	//Handle Collisions
 	scoring.detectCollisions();
@@ -67,16 +73,7 @@ function handleTick() {
 	// if the final ball is collected together with another in quick succession.
 	if (scoring.noCollected >= targetToCollect) {
 	
-		canvas.clear();	
-	
-		//Draw characters
-		player1.draw();
-		ball.draw();
-		
-		//Display scores and time
-		scoring.displayScore();
-		scoring.displayNoCollected();
-		timer.display();
+		updateScreen();
 		
 		//Display question
 		game.pauseTick();
