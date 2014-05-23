@@ -40,16 +40,18 @@ var ballSrc = ["img/yellow.png","img/red.png"];
 */
 
 function drawCharacters() {
-	//Draw characters
 	player1.draw("solid");
-	ball.create(probabilityBallCreated,ballSpeedFactor);
 	ball.draw();
-	}
+}
+	
+function randomlyCreateBallWithRandomSpeed() {
+	ball.create(probabilityBallCreated,ballSpeedFactor);
+}
 
 function handleTick() {
 	
 	canvas.clear();	
-	
+	randomlyCreateBallWithRandomSpeed();
 	drawCharacters();
 	
 	//Display scores and time
