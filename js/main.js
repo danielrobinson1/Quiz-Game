@@ -13,9 +13,10 @@ var questionList = [
 	/*9*/ "What is the name of the robot in the film Short Circuit?", "Johnny 5", "Alpha 5", "Babylon 5", "Abz from 5ive",
 	
 	/*10*/ "Who wrote 'The Odyssey'?", "Homer", "Bart", "Lisa", "Maggie",
+	
 	];
 
-	//trailing comma on last line of arraymay cause a fit to be thrown 
+	//trailing comma on last line of array may cause a fit to be thrown 
 	//in IE < 9 but is correct code.
 
 	
