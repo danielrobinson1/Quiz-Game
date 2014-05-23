@@ -34,10 +34,14 @@ var targetToCollect = 20;				// No of enemies to collect before a question is as
 var player1Src = ["img/blue.png", "img/white.png"];		// Multiple images used when player1.draw argument is set to "flash".
 var ballSrc = ["img/yellow.png","img/red.png"];
 
-/*
- NAME handleTick
- DESC Called periodically using setInterval. 
-*/
+function handleTick() {
+	randomlyCreateBallWithRandomSpeed();
+	updateScreen();
+	handleCollisions();
+	displayQuestionIfTargetReached();
+	checkIfGameOver();
+	game.tickCounter++;
+}
 
 function randomlyCreateBallWithRandomSpeed() {
 	ball.create(probabilityBallCreated,ballSpeedFactor);
@@ -60,6 +64,10 @@ function displayScoreAndTime() {
 	timer.display();
 }
 
+function handleCollisions() {
+	scoring.detectCollisions();
+}
+
 function displayQuestionIfTargetReached() {
 // Check whether target number has been collected and display question. 
 // Note it is actually possible for the variable scoring.noCollected to go over target 
@@ -75,22 +83,14 @@ function isTargetReached() {
 	return scoring.noCollected >= targetToCollect;
 }
 
-function handleTick() {
-	
-	randomlyCreateBallWithRandomSpeed();
-	updateScreen();
-	
-	//Handle Collisions
-	scoring.detectCollisions();
-	
-	displayQuestionIfTargetReached();
-	
-	// Check game over conditions
-	if (scoring.noCollected < 0 || timer.time < 0) {
+function checkIfGameOver() {
+	if (isGameOver()) {
 		game.pauseTick();
 		alert("Game over");
 		location.reload();
 	}
-	
-	game.tickCounter++;
+}
+
+function isGameOver() {
+	return scoring.noCollected < 0 || timer.time < 0;
 }
