@@ -1,5 +1,3 @@
-/* test
-
 /* Objects are ordered alphabetically, and each contains 
 	-Variables in alphabetical order, followed by
 	-Functions in alphabetical order. */
@@ -7,15 +5,18 @@
 
 var answer = {
 	
-	order: [],   	    // Array to hold the order in which the answers to the selected question are to appear - eg [2,1,3,4] answer 2 is assigned to the first button, and so on.
-	submitted: 0,		// Stops user entering more than one answer. Value set to 1 after answer has been submitted.
-		
+	buttonOrderSequence: [],   	// Array to hold the order in which the answers to the selected question are to appear - eg [2,1,3,4] answer 2 is assigned to the first button, and so on.
+	submitted: 0,				// Stops user entering more than one answer. Value set to 1 after answer has been submitted.	
+	
 	/*
 	 NAME answer.correct
 	 DESC Executed if user answers question correctly. Variable 'answer.submitted' 
 	  used to prevent more than one answer being entered. Div is revealed saying the answer 
 	  entered is correct. Score is increased and timer reset. After a pause, the game continues.
 	*/
+	
+	
+	
 	correct: function() {
 		
 		if (answer.submitted == 0) {
@@ -45,7 +46,7 @@ var answer = {
 	 DESC Assign the four possible answers to the four buttons in a random order.
 	*/
 	setOrder: function() {
-		answer.order = random.sequence(3);
+		answer.buttonOrderSequence = random.sequence(3);
 	}
 };
 
@@ -151,18 +152,19 @@ var button = {
 	 DESC Assign the answers to the buttons
 	*/
 	assignAnswers: function() {
-		elementID.buttonA.innerHTML = questionList[question.ID*5 + answer.order[0]];
-		elementID.buttonB.innerHTML = questionList[question.ID*5 + answer.order[1]];
-		elementID.buttonC.innerHTML = questionList[question.ID*5 + answer.order[2]];
-		elementID.buttonD.innerHTML = questionList[question.ID*5 + answer.order[3]];
+		elementID.buttonA.innerHTML = questionList[question.ID*5 + answer.buttonOrderSequence[0]];
+		elementID.buttonB.innerHTML = questionList[question.ID*5 + answer.buttonOrderSequence[1]];
+		elementID.buttonC.innerHTML = questionList[question.ID*5 + answer.buttonOrderSequence[2]];
+		elementID.buttonD.innerHTML = questionList[question.ID*5 + answer.buttonOrderSequence[3]];
 	},
 	/*
 	 NAME button.clickA
 	 DESC Executed when button A is clicked. Check whether the answer is correct.
 	*/
+	
 	clickA: function() {
 		
-		if (answer.order[0]==1) {
+		if (answer.buttonOrderSequence[0]==1) {
 			answer.correct();
 		}
 		else answer.incorrect();
@@ -173,7 +175,7 @@ var button = {
 	*/
 	clickB: function() {
 		
-		if (answer.order[1]==1) {
+		if (answer.buttonOrderSequence[1]==1) {
 			answer.correct();
 		}
 		else answer.incorrect();
@@ -184,7 +186,7 @@ var button = {
 	*/
 	clickC: function() {
 		
-		if (answer.order[2]==1) {
+		if (answer.buttonOrderSequence[2]==1) {
 			answer.correct();
 		}
 		else answer.incorrect();
@@ -195,7 +197,7 @@ var button = {
 	*/
 	clickD: function() {
 		
-		if (answer.order[3]==1) {
+		if (answer.buttonOrderSequence[3]==1) {
 			answer.correct();
 		}
 		else answer.incorrect();
