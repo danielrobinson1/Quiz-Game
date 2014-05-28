@@ -19,23 +19,20 @@ var questionList = [
 	//trailing comma on last line of array may cause a fit to be thrown 
 	//in IE < 9 but is correct code.
 	
-	//Branch refactoring
-
 	
-	
-var probabilityBallCreated = 0.2;    	// Probability that an ball is created on a given tick.
-var ballSpeedFactor = 5;			   	// Determines max possible speed that enemies may be assigned.
+var probabilityBallCreated = 0.2;    	// Probability that a ball is created on a given tick.
+var ballSpeedFactor = 5;			   	// Determines max possible speed that balls may be assigned.
 var probabilityBallID = 0.5;			// Probability that a given ball, once created, is yellow or red.
 var initialTimerValue = 60;				// Number of seconds to appear on timer when the game begins.
 var timerTopupAmount = 10;				// Number of seconds to add to timer when a question is answered correctly.
-var targetToCollect = 20;				// No of enemies to collect before a question is asked.
+var targetToCollect = 20;				// No of balls to collect before a question is asked.
 
 // Image source.
 var player1Src = ["img/blue.png", "img/white.png"];		// Multiple images used when player1.draw argument is set to "flash".
 var ballSrc = ["img/yellow.png","img/red.png"];
 
 function handleTick() {
-	randomlyCreateBallWithRandomSpeed();
+	randomlyGenerateBallWithRandomSpeed();
 	updateScreen();
 	handleCollisions();
 	displayQuestionIfTargetReached();
@@ -43,8 +40,8 @@ function handleTick() {
 	game.tickCounter++;
 }
 
-function randomlyCreateBallWithRandomSpeed() {
-	ball.create(probabilityBallCreated,ballSpeedFactor);
+function randomlyGenerateBallWithRandomSpeed() {
+	ball.generateBall(probabilityBallCreated,ballSpeedFactor);
 }
 
 function updateScreen() {

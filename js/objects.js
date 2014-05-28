@@ -53,7 +53,7 @@ var answer = {
 
 var ball = {
 
-	ID: [],						// ID=1 for yellow, ID=2 for red.
+	ID: [],						// Determines type of ball: "yellow" or "red"
 	height: '',					// Assuming all types of ball have the same dimensions. Used in scoring.collisionBottom
 	numberOf: 0,
 	speed: [],
@@ -64,28 +64,39 @@ var ball = {
 	YPositions: [],
 	
 	/*
-	 NAME ball.create
-	 DESC Create new balls at random times, positions and speed 
+	 NAME ball.generateBall
+	 DESC Generates new ball data (position, speed, type) according to a given probabilty 
 	  by adding new entries to the relevant arrays with 'push'.
-	 PARA probability - Defines the probability that a new ball is created on a given tick.
-	 PARA speed - ball speed is given by a random number between 0 and 1, 
-	  and then multiplied by the argument 'speed'.
+	 PARA probability - Defines the probability that a new ball is created.
+	 PARA speedLimit - ball speed is given by a random number between 0 and the variable speedLimit
+	  (i.e Math.random() is a nuber between 0 and 1).
 	*/
-	create: function(probability,speed) {
+	generateBall: function(probability,speedLimit) {
 	
 		if (Math.random() < probability) {
-			ball.XPositions.push(Math.random()*player1.rightBoundary);
-			ball.YPositions.push(-30);
-			ball.speed.push(Math.random()*speed);
-			
-			//Assign ball ID - Could be a separate function
-			if (Math.random() < probabilityBallID) {
-				ball.ID.push(1);
-			}
-			else ball.ID.push(2);
+			ball.generateStartingCoordinates();
+			ball.generateStartingSpeed(speedLimit);
+			ball.generateType();
 		}
 		ball.numberOf = ball.XPositions.length;
 	},
+	
+	generateStartingCoordinates: function() {
+		ball.XPositions.push(Math.random()*player1.rightBoundary);
+		ball.YPositions.push(-30);		
+	},
+	
+	generateStartingSpeed: function(upperLimit) {
+		ball.speed.push(Math.random()*upperLimit);
+	},
+	
+	generateType: function() {
+		if (Math.random() < probabilityBallID) {
+			ball.ID.push("yellow");
+		}
+		else ball.ID.push("red");
+	},
+	
 	/*
 	 NAME ball.draw
 	 DESC Increases y co-ordinate of the balls and draws them in new position.
@@ -104,10 +115,10 @@ var ball = {
 		// Draw all balls in their new positions
 		currentBallNumber = 0;
 		while (currentBallNumber < numberOfBalls) {
-			if (ball.ID[currentBallNumber] == 1) {
+			if (ball.ID[currentBallNumber] == "yellow") {
 				elementID.gameCanvas.getContext("2d").drawImage(ball.type1Image, ball.XPositions[currentBallNumber], ball.YPositions[currentBallNumber]);
 			}
-			else if (ball.ID[currentBallNumber] == 2) {
+			else if (ball.ID[currentBallNumber] == "red") {
 				elementID.gameCanvas.getContext("2d").drawImage(ball.type2Image, ball.XPositions[currentBallNumber], ball.YPositions[currentBallNumber]);
 			}
 			currentBallNumber++;
@@ -632,10 +643,10 @@ var scoring = {
 	},
 		
 	updateNoCollected: function(n) {
-		if (ball.ID[n] == 1) {
+		if (ball.ID[n] == "yellow") {
 			scoring.noCollected++;
 		}
-		else if (ball.ID[n] == 2) {
+		else if (ball.ID[n] == "red") {
 			scoring.noCollected--;
 		}
 	},
