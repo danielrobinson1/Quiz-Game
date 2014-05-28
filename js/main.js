@@ -20,8 +20,8 @@ var questionList = [
 	//in IE < 9 but is correct code.
 	
 	
-var probabilityBallCreated = 0.2;    	// Probability that a ball is created on a given tick.
-var ballSpeedFactor = 5;			   	// Determines max possible speed that balls may be assigned.
+var probabilityBallIsGenerated = 0.2;    	// Probability that a ball is created on a given tick.
+var ballSpeedLimit = 5;			   		// Determines max possible falling speed that balls may be assigned.
 var probabilityBallID = 0.5;			// Probability that a given ball, once created, is yellow or red.
 var initialTimerValue = 60;				// Number of seconds to appear on timer when the game begins.
 var timerTopupAmount = 10;				// Number of seconds to add to timer when a question is answered correctly.
@@ -41,7 +41,7 @@ function handleTick() {
 }
 
 function randomlyGenerateBallWithRandomSpeed() {
-	ball.generateBall(probabilityBallCreated,ballSpeedFactor);
+	ball.generateBall(probabilityBallIsGenerated,ballSpeedLimit);
 }
 
 function updateScreen() {
