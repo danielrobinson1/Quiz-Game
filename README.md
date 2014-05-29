@@ -1,4 +1,4 @@
-#Quiz Game
+Quiz Game
 =========
 A simple quiz game using HTML5 and Javascript. 
 The player controls the blue ball by moving the mouse and must collect 20 yellow balls to unlock a question.
