@@ -1,8 +1,5 @@
 Quiz Game
 =========
-
-TEST
-
 Project website: http://danielmarkrobinson.netne.net/
 
 A simple quiz game using HTML5 and Javascript. 
