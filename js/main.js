@@ -52,6 +52,8 @@ function updateScreen() {
 
 function drawCharacters() {
 	player1.draw();
+	ball.obtainCurrentNumberOfBallsInPlay();
+	ball.incrementYCoords();
 	ball.draw();
 }
 
