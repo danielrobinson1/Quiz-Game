@@ -183,11 +183,10 @@ var canvas = {
 	}
 };
 
-
 var elementID = {	
-	// HTML elements. Initialized by game.prepare() when HTML file is loaded. Used instead of document.getElementById("")
-	// Look into jquery, where $() can be used for exactly this purpose.
-	
+	// HTML elements. Initialized by game.prepare() when HTML file is loaded.
+	// elementID used as shorthand for document.getElementById()
+	// Look into jquery instead, where selectors $() can be used for exactly this purpose.
 	answerButtons: '',
 	answerCorrect: '',
 	answerIncorrect: '',
