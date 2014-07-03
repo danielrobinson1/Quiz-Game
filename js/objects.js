@@ -15,8 +15,6 @@ var answer = {
 	  entered is correct. Score is increased and timer reset. After a pause, the game continues.
 	*/
 	
-	
-	
 	correct: function() {
 		
 		if (answer.submitted == 0) {
@@ -52,16 +50,22 @@ var answer = {
 
 
 var ball = {
-
-	ID: [],						// Determines type of ball: "yellow" or "red"
-	height: '',					// Assuming all types of ball have the same dimensions. Used in scoring.collisionBottom
+	// Determines type of ball: "yellow" or "red"
+	ID: [],
+	// Assuming all types of ball have the same dimensions. Used in scoring.collisionBottom
+	height: '',
 	numberOf: 0,
 	speed: [],
 	type1Image: new Image(),
 	type2Image: new Image(),
-	width: '',					// Assuming all types of ball have the same dimensions. Used in scoring.collisionTop
+	// Assuming all types of ball have the same dimensions. Used in scoring.collisionTop
+	width: '',
 	XPositions: [],
 	YPositions: [],
+	
+	//Changed
+	currentBallNumber: 0,
+	numberOfBalls: 0;
 	
 	/*
 	 NAME ball.generateBall
@@ -103,8 +107,8 @@ var ball = {
 	*/
 	draw: function() {
 	
-		var currentBallNumber = 0;
-		var numberOfBalls = ball.XPositions.length;
+		
+		
 	
 		// Increase y-co-ordinates of all balls
 		while (currentBallNumber < numberOfBalls) {
@@ -124,6 +128,15 @@ var ball = {
 			currentBallNumber++;
 		}
 	},
+	
+	incrementYCoordinates: function() {
+		// Increase y-co-ordinates of all balls
+		while (currentBallNumber < numberOfBalls) {
+			ball.YPositions[currentBallNumber] = ball.YPositions[currentBallNumber] + ball.speed[currentBallNumber];
+			currentBallNumber++;
+		}
+	},
+	
 	/*
      NAME ball.remove
      DESC Delete all array entries for ball with index a.
