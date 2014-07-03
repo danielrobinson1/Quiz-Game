@@ -173,15 +173,12 @@ var button = {
 var canvas = {
 	
 	height: 0,
-	initialClick: 0,	// Used to stop setInterval being called more than once via game.begin() if mouse is clicked a second time.
+	// Used to stop setInterval being called more than once via game.begin() if mouse is clicked a second time.
+	initialClick: 0,
 	width: 0,
 
-	/*
-	 NAME canvas.clear
-	 DESC Clears the canvas.
-	*/
+	// Clears the canvas
 	clear: function() {
-
 		elementID.gameCanvas.width = canvas.width;
 	}
 };
