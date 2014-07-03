@@ -64,7 +64,7 @@ var ball = {
 	YPositions: [],
 	
 	//Changed
-	currentBallNumber: 0,
+	//currentBallNumber: 0,
 	numberOfBalls: 0;
 	
 	/*
@@ -107,17 +107,16 @@ var ball = {
 	*/
 	draw: function() {
 	
-		
-		
-	
+		//Moved to new function incrementYCoords
 		// Increase y-co-ordinates of all balls
-		while (currentBallNumber < numberOfBalls) {
-			ball.YPositions[currentBallNumber] = ball.YPositions[currentBallNumber] + ball.speed[currentBallNumber];
-			currentBallNumber++;
-		}
+		//while (currentBallNumber < numberOfBalls) {
+		//	ball.YPositions[currentBallNumber] = ball.YPositions[currentBallNumber] + ball.speed[currentBallNumber];
+		//	currentBallNumber++;
+		//}
 	
 		// Draw all balls in their new positions
-		currentBallNumber = 0;
+		var currentBallNumber = 0;
+		
 		while (currentBallNumber < numberOfBalls) {
 			if (ball.ID[currentBallNumber] == "yellow") {
 				elementID.gameCanvas.getContext("2d").drawImage(ball.type1Image, ball.XPositions[currentBallNumber], ball.YPositions[currentBallNumber]);
@@ -129,8 +128,10 @@ var ball = {
 		}
 	},
 	
-	incrementYCoordinates: function() {
+	incrementYCoords: function() {
 		// Increase y-co-ordinates of all balls
+		var currentBallNumber = 0;
+		
 		while (currentBallNumber < numberOfBalls) {
 			ball.YPositions[currentBallNumber] = ball.YPositions[currentBallNumber] + ball.speed[currentBallNumber];
 			currentBallNumber++;
