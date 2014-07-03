@@ -1,22 +1,12 @@
-/* Objects are ordered alphabetically, and each contains 
-	-Variables in alphabetical order, followed by
-	-Functions in alphabetical order. */
-	
 
 var answer = {
+	// Determines the order in which answers are assigned to the buttons
+	buttonOrderSequence: [],
+	// Stops user entering more than one answer. Value set to 1 after answer has been submitted
+	submitted: 0,
 	
-	buttonOrderSequence: [],   	// Array to hold the order in which the answers to the selected question are to appear - eg [2,1,3,4] answer 2 is assigned to the first button, and so on.
-	submitted: 0,				// Stops user entering more than one answer. Value set to 1 after answer has been submitted.	
-	
-	/*
-	 NAME answer.correct
-	 DESC Executed if user answers question correctly. Variable 'answer.submitted' 
-	  used to prevent more than one answer being entered. Div is revealed saying the answer 
-	  entered is correct. Score is increased and timer reset. After a pause, the game continues.
-	*/
-	
+	//Executed if user answers question correctly.
 	correct: function() {
-		
 		if (answer.submitted == 0) {
 			scoring.score++;
 			timer.topup();
@@ -25,29 +15,21 @@ var answer = {
 			setTimeout(game.restartAfterQuestion,2000);
 		}
 	},
-	/*
-	 NAME answer.incorrect
-	 DESC Executed if user answers question incorrectly. Variable 'answer.submitted' 
-	  used to prevent more than one answer being entered. Div is revealed saying the answer 
-	  entered is incorrect. After a pause, the game continues.
-	*/
+	
+	// Executed if user answers question incorrectly
 	incorrect: function() {
-		
 		if (answer.submitted == 0) {
 			elementID.answerIncorrect.style.display="block";
 			answer.submitted = 1;
 			setTimeout(game.restartAfterQuestion,2000);
 		}
 	},
-	/*
-	 NAME answer.setOrder
-	 DESC Assign the four possible answers to the four buttons in a random order.
-	*/
+	
+	// Assign the four possible answers to the four buttons in a random order.
 	setOrder: function() {
 		answer.buttonOrderSequence = random.sequence(3);
 	}
 };
-
 
 var ball = {
 	// Determines type of ball: "yellow" or "red"
