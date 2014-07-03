@@ -38,8 +38,8 @@ var ball = {
 	height: '',
 	numberOf: 0,
 	speed: [],
-	type1Image: new Image(),
-	type2Image: new Image(),
+	yellowBallImage: new Image(),
+	redBallImage: new Image(),
 	// Assuming all types of ball have the same dimensions. Used in scoring.collisionTop
 	width: '',
 	XPositions: [],
@@ -96,10 +96,10 @@ var ball = {
 		
 		while (currentBall < ball.numberOfBalls) {
 			if (ball.ID[currentBall] == "yellow") {
-				elementID.gameCanvas.getContext("2d").drawImage(ball.type1Image, ball.XPositions[currentBall], ball.YPositions[currentBall]);
+				elementID.gameCanvas.getContext("2d").drawImage(ball.yellowBallImage, ball.XPositions[currentBall], ball.YPositions[currentBall]);
 			}
 			else if (ball.ID[currentBall] == "red") {
-				elementID.gameCanvas.getContext("2d").drawImage(ball.type2Image, ball.XPositions[currentBall], ball.YPositions[currentBall]);
+				elementID.gameCanvas.getContext("2d").drawImage(ball.redBallImage, ball.XPositions[currentBall], ball.YPositions[currentBall]);
 			}
 			currentBall++;
 		}
@@ -122,8 +122,8 @@ var ball = {
 	},
 	// Assign ball images
 	setImage: function() {
-		ball.type1Image.src = ballSrc[0];
-		ball.type2Image.src = ballSrc[1];
+		ball.yellowBallImage.src = ballSrc[0];
+		ball.redBallImage.src = ballSrc[1];
 	}
 };
 
@@ -169,7 +169,6 @@ var button = {
 		else answer.incorrect();
 	}
 };
-
 
 var canvas = {
 	
@@ -228,8 +227,8 @@ var game = {
 			// when first opening the game in the browser. However after refreshing the browser, the game then worked as normal!
 			player1.height = player1.image.height;
 			player1.width = player1.image.width;
-			ball.height = ball.type1Image.height;		// Assuming that all different ball types have the same dimension.
-			ball.width = ball.type1Image.width;
+			ball.height = ball.yellowBallImage.height;		// Assuming that all different ball types have the same dimension.
+			ball.width = ball.yellowBallImage.width;
 			
 			elementID.gameCanvas.addEventListener('mousemove',player1.handleMouseMovement, false);	
 			game.startTick();
