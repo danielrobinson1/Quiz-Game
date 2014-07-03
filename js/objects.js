@@ -129,56 +129,40 @@ var ball = {
 
 var button = {
 	
-	/*
-	 NAME button.assignAnswers
-	 DESC Assign the answers to the buttons
-	*/
+	// Assign the answers to the buttons
 	assignAnswers: function() {
 		elementID.buttonA.innerHTML = questionList[question.ID*5 + answer.buttonOrderSequence[0]];
 		elementID.buttonB.innerHTML = questionList[question.ID*5 + answer.buttonOrderSequence[1]];
 		elementID.buttonC.innerHTML = questionList[question.ID*5 + answer.buttonOrderSequence[2]];
 		elementID.buttonD.innerHTML = questionList[question.ID*5 + answer.buttonOrderSequence[3]];
 	},
-	/*
-	 NAME button.clickA
-	 DESC Executed when button A is clicked. Check whether the answer is correct.
-	*/
 	
+	// Executed when button A is clicked. Check whether the answer is correct
 	clickA: function() {
-		
 		if (answer.buttonOrderSequence[0]==1) {
 			answer.correct();
 		}
 		else answer.incorrect();
 	},
-	/*
-	 NAME button.clickB
-	 DESC Executed when button B is clicked. Check whether the answer is correct.
-	*/
+	
+	// Executed when button B is clicked. Check whether the answer is correct.
 	clickB: function() {
-		
 		if (answer.buttonOrderSequence[1]==1) {
 			answer.correct();
 		}
 		else answer.incorrect();
 	},
-	/*
-	 NAME button.clickC
-	 DESC Executed when button C is clicked. Check whether the answer is correct.
-	*/
+	
+	// Executed when button C is clicked. Check whether the answer is correct.
 	clickC: function() {
-		
 		if (answer.buttonOrderSequence[2]==1) {
 			answer.correct();
 		}
 		else answer.incorrect();
 	},
-	/*
-	 NAME button.clickD
-	 DESC Executed when button D is clicked. Check whether the answer is correct.
-	*/
+	
+	//Executed when button D is clicked. Check whether the answer is correct.
 	clickD: function() {
-		
 		if (answer.buttonOrderSequence[3]==1) {
 			answer.correct();
 		}
