@@ -62,21 +62,10 @@ var ball = {
 	width: '',
 	XPositions: [],
 	YPositions: [],
-	
-	//Changed
-	//currentBallNumber: 0,
 	numberOfBalls: 0,
 	
-	/*
-	 NAME ball.generateBall
-	 DESC Generates new ball data (position, speed, type) according to a given probabilty 
-	  by adding new entries to the relevant arrays with 'push'.
-	 PARA probability - Defines the probability that a new ball is created.
-	 PARA speedLimit - ball speed is given by a random number between 0 and the variable speedLimit
-	  (i.e Math.random() is a nuber between 0 and 1).
-	*/
+	// Generates new ball data
 	generateBall: function(probability,speedLimit) {
-	
 		if (Math.random() < probability) {
 			ball.generateStartingCoordinates();
 			ball.generateStartingSpeed(speedLimit);
@@ -85,15 +74,18 @@ var ball = {
 		ball.numberOf = ball.XPositions.length;
 	},
 	
+	// Generates a random starting position for a new ball
 	generateStartingCoordinates: function() {
 		ball.XPositions.push(Math.random()*player1.rightBoundary);
 		ball.YPositions.push(-30);		
 	},
 	
+	// Assigns a speed to a new ball at random
 	generateStartingSpeed: function(upperLimit) {
 		ball.speed.push(Math.random()*upperLimit);
 	},
 	
+	// Assigns a type to a new ball, red or yellow
 	generateType: function() {
 		if (Math.random() < probabilityBallID) {
 			ball.ID.push("yellow");
@@ -101,78 +93,57 @@ var ball = {
 		else ball.ID.push("red");
 	},
 	
-	/*
-	 NAME ball.draw
-	 DESC Increases y co-ordinate of the balls and draws them in new position.
-	*/
-	draw: function() {
-	
-		//Moved to new function incrementYCoords
-		// Increase y-co-ordinates of all balls
-		//while (currentBallNumber < numberOfBalls) {
-		//	ball.YPositions[currentBallNumber] = ball.YPositions[currentBallNumber] + ball.speed[currentBallNumber];
-		//	currentBallNumber++;
-		//}
-	
-		// Draw all balls in their new positions
-		var currentBallNumber = 0;
-		
-		while (currentBallNumber < ball.numberOfBalls) {
-			if (ball.ID[currentBallNumber] == "yellow") {
-				elementID.gameCanvas.getContext("2d").drawImage(ball.type1Image, ball.XPositions[currentBallNumber], ball.YPositions[currentBallNumber]);
-			}
-			else if (ball.ID[currentBallNumber] == "red") {
-				elementID.gameCanvas.getContext("2d").drawImage(ball.type2Image, ball.XPositions[currentBallNumber], ball.YPositions[currentBallNumber]);
-			}
-			currentBallNumber++;
-		}
-	},
-	
-	incrementYCoords: function() {
-		// Increase y-co-ordinates of all balls
-		var currentBallNumber = 0;
-		
-		while (currentBallNumber < ball.numberOfBalls) {
-			ball.YPositions[currentBallNumber] = ball.YPositions[currentBallNumber] + ball.speed[currentBallNumber];
-			currentBallNumber++;
-		}
-	},
-	
+	//Set the value of ball.numberOfBalls to the number of balls in play
 	obtainCurrentNumberOfBallsInPlay: function() {
 		ball.numberOfBalls = ball.XPositions.length;
 	},
 	
-	/*
-     NAME ball.remove
-     DESC Delete all array entries for ball with index a.
-     PARA n - Index of ball to be removed.
-    */
+	//Increments the y-coordinate of each ball in play
+	incrementYCoords: function() {
+		var currentBall = 0;
+		
+		while (currentBall < ball.numberOfBalls) {
+			ball.YPositions[currentBall] = ball.YPositions[currentBall] + ball.speed[currentBall];
+			currentBall++;
+		}
+	},
+	
+	// Draws each of the balls on the canvas
+	draw: function() {
+		var currentBall = 0;
+		
+		while (currentBall < ball.numberOfBalls) {
+			if (ball.ID[currentBall] == "yellow") {
+				elementID.gameCanvas.getContext("2d").drawImage(ball.type1Image, ball.XPositions[currentBall], ball.YPositions[currentBall]);
+			}
+			else if (ball.ID[currentBall] == "red") {
+				elementID.gameCanvas.getContext("2d").drawImage(ball.type2Image, ball.XPositions[currentBall], ball.YPositions[currentBall]);
+			}
+			currentBall++;
+		}
+	},
+
+	// Delete all array entries for ball with index a
 	remove: function(n) {
 		ball.XPositions.splice(n,1); 
 		ball.YPositions.splice(n,1);
 		ball.speed.splice(n,1);
 		ball.ID.splice(n,1);
 	},
-	/*
-     NAME ball.removeAll
-     DESC Clears the screen of balls by clearing all the relevant arrays.
-	*/
+	
+	// Clears the screen of balls by clearing all the relevant arrays
 	removeAll: function() {
 		ball.XPositions = [];
 		ball.YPositions = [];
 		ball.speed = [];
 		ball.ID = [];
 	},
-	/*
-	 NAME ball.setImage
-	 DESC Assign ball images.
-	*/
+	// Assign ball images
 	setImage: function() {
 		ball.type1Image.src = ballSrc[0];
 		ball.type2Image.src = ballSrc[1];
 	}
 };
-
 
 var button = {
 	
