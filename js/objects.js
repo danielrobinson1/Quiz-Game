@@ -173,8 +173,6 @@ var button = {
 var canvas = {
 	
 	height: 0,
-	// Used to stop setInterval being called more than once via game.begin() if mouse is clicked a second time.
-	initialClick: 0,
 	width: 0,
 
 	// Clears the canvas
@@ -209,28 +207,53 @@ var game = {
 	handleTickHold: '',		
 	countdownHold: '',
 	tickCounter: 0,
+	initialClick: 0,
 
-	/*
-	 NAME game.begin
-	 DESC Tasks to be performed when user first clicks the canvas to begin the game. 
-	*/
+	// Tasks to be performed when user first clicks the canvas to begin the game. 
 	begin: function() {
 		
-		if (canvas.initialClick == 0) {	
-		
-			// Set image dimensions used for collision detection
-			// Tried including this in game.prepare(); but nothing happened when the player1 collided with a ball
-			// when first opening the game in the browser. However after refreshing the browser, the game then worked as normal!
-			player1.height = player1.image.height;
-			player1.width = player1.image.width;
-			ball.height = ball.yellowBallImage.height;		// Assuming that all different ball types have the same dimension.
-			ball.width = ball.yellowBallImage.width;
-			
-			elementID.gameCanvas.addEventListener('mousemove',player1.handleMouseMovement, false);	
+		//if (game.initialClick == 0) {
+		if (game.hasNotBegun) {
+			game.ignoreFurtherMouseClicks();
+			game.setPlayer1Dimensions();
+			game.setBallDimensions();
+			game.addEventListenerForMouseMovement();
 			game.startTick();
-			canvas.initialClick = 1;
-		}	
+		}
 	},
+	
+	// Returns true if player has not yet clicked the screen to begin the game, false otherwise.
+	hasNotBegun: function() {
+		if (game.initialClick == 0) {
+			return true;
+		}
+		else if (game.initialClick == 1) {
+			return false;
+		}
+	},
+	
+	// Prevent further calls of game.begin() via clicking of the canvas.
+	ignoreFurtherMouseClicks: function() {
+		game.initialClick = 1;
+	},
+	
+	// Obtain the dimensions of the player1 image to be used for collision detection.
+	setPlayer1Dimensions: function() {
+		player1.height = player1.image.height;
+		player1.width = player1.image.width;		
+	},
+	
+	// Obtain the dimensions of the player1 image to be used in collision detection.
+	setBallDimensions: function() {
+		ball.height = ball.yellowBallImage.height;		
+		ball.width = ball.yellowBallImage.width;	
+	},
+	
+	// Add event listener to deal with movement of player1 by mouse.
+	addEventListenerForMouseMovement: function() {
+		elementID.gameCanvas.addEventListener('mousemove',player1.handleMouseMovement, false);
+	},
+	
 	/*
 	 NAME game.prepare
 	 DESC Tasks to be performed when the HTML file is loaded in the browser.
@@ -317,8 +340,8 @@ var game = {
 	/*
 	 NAME game.startTick
 	 DESC Start executing the function handleTick at the specified period of miliseconds.
-	  Start countdown timer and change value of canvas.initialClick to prevent any further calls 
-	  of the setInterval commands via the function game.begin(). Failing to change canvas.initialClick, 
+	  Start countdown timer and change value of game.initialClick to prevent any further calls 
+	  of the setInterval commands via the function game.begin(). Failing to change game.initialClick, 
 	  would mean that any accidental mouse clicks increase the speed of the game.
 	*/
 	startTick: function() {
