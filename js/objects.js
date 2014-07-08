@@ -197,7 +197,25 @@ var elementID = {
 	instructions: '',
 	name: '',
 	questionContainer: '',
-	questionText: ''
+	questionText: '',
+	
+	//Initialize shortcuts to be used instead of document.getElementById.
+	//Note this can be better acheived with jquery using $().
+	setShorthands: function() {
+		elementID.answerButtons = document.getElementById("answerButtons");
+		elementID.answerCorrect = document.getElementById("answerCorrect");
+		elementID.answerIncorrect = document.getElementById("answerIncorrect");
+		elementID.buttonA = document.getElementById("buttonA");
+		elementID.buttonB = document.getElementById("buttonB");
+		elementID.buttonC = document.getElementById("buttonC");
+		elementID.buttonD = document.getElementById("buttonD");
+		elementID.container = document.getElementById("container");
+		elementID.gameCanvas = document.getElementById("gameCanvas");
+		elementID.instructions = document.getElementById("instructions");
+		elementID.name = document.getElementById("name");
+		elementID.questionContainer = document.getElementById("questionContainer");
+		elementID.questionText = document.getElementById("questionText");
+	},
 };
 
 
@@ -212,7 +230,6 @@ var game = {
 	// Tasks to be performed when user first clicks the canvas to begin the game. 
 	begin: function() {
 		
-		//if (game.initialClick == 0) {
 		if (game.hasNotBegun) {
 			game.ignoreFurtherMouseClicks();
 			game.setPlayer1Dimensions();
@@ -259,23 +276,9 @@ var game = {
 	 DESC Tasks to be performed when the HTML file is loaded in the browser.
 	*/  
 	prepare: function() {
+
+		elementID.setShorthands();
 	
-		//Initialize shortcuts to be used instead of document.getElementById.
-		//Note this can be better acheived with jquery using $().
-		elementID.answerButtons = document.getElementById("answerButtons");
-		elementID.answerCorrect = document.getElementById("answerCorrect");
-		elementID.answerIncorrect = document.getElementById("answerIncorrect");
-		elementID.buttonA = document.getElementById("buttonA");
-		elementID.buttonB = document.getElementById("buttonB");
-		elementID.buttonC = document.getElementById("buttonC");
-		elementID.buttonD = document.getElementById("buttonD");
-		elementID.container = document.getElementById("container");
-		elementID.gameCanvas = document.getElementById("gameCanvas");
-		elementID.instructions = document.getElementById("instructions");
-		elementID.name = document.getElementById("name");
-		elementID.questionContainer = document.getElementById("questionContainer");
-		elementID.questionText = document.getElementById("questionText");
-		
 		elementID.instructions.innerHTML = 
 		"<p>Compatible with  Chrome v28, Internet Explorer v10, Firefox v27 and Opera v15</p>" + 
 		"<p><strong>Instructions:</strong> Collect " + targetToCollect + " yellow to unlock a question. " + "Avoid the red!</p>";
@@ -304,6 +307,10 @@ var game = {
 		// Set all questions to allowed - Any question may be chosen first time around. Once a question it will not be asked again until a new game is started.
 		question.setAllAllowed();
 	},
+	
+
+	
+	
 	/*
 	 NAME game.pauseTick
 	 DESC Pauses the game.
