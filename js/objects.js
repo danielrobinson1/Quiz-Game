@@ -12,7 +12,7 @@ var answer = {
 			timer.topup();
 			elementID.answerCorrect.style.display="block";
 			answer.submitted = 1;
-			setTimeout(game.restartAfterQuestion,2000);
+			setTimeout(game.prepareForNextRound,2000);
 		}
 	},
 	
@@ -21,7 +21,7 @@ var answer = {
 		if (answer.submitted == 0) {
 			elementID.answerIncorrect.style.display="block";
 			answer.submitted = 1;
-			setTimeout(game.restartAfterQuestion,2000);
+			setTimeout(game.prepareForNextRound,2000);
 		}
 	},
 	
@@ -316,30 +316,29 @@ var game = {
 		clearInterval(game.handleTickHold);
 		clearInterval(game.countdownHold);
 	},
-	/*
-	 NAME game.restartAfterQuestion
-	 DESC After user enters answer to question
-	*/
-	restartAfterQuestion: function() {
+	
+	// Tasks to perform after player enters an answer to a question.
+	prepareForNextRound: function() {
 		ball.removeAll();
 		scoring.resetNoCollected();
 		elementID.answerIncorrect.style.display="none";
 		elementID.answerCorrect.style.display="none";
 		elementID.questionContainer.style.display="none";
-		
 		canvas.clear();
-		
+		game.displayGetReadyScreen();
+		scoring.displayScore();
+		scoring.displayNoCollected();
+		timer.display();
+		setTimeout(game.startTick,2000);
+	},
+	
+	displayGetReadyScreen: function() {
 		elementID.gameCanvas.getContext("2d").font = "16px Arial";
 		elementID.gameCanvas.getContext("2d").textBaseline = "center";
 		elementID.gameCanvas.getContext("2d").textAlign = "center";
 		elementID.gameCanvas.getContext("2d").fillText("Get Ready!",canvas.width/2,canvas.height/2);
-		
-		scoring.displayScore();
-		scoring.displayNoCollected();
-		timer.display();
-		
-		setTimeout(game.startTick,2000);
 	},
+	
 	/*
 	 NAME game.startTick
 	 DESC Start executing the function handleTick at the specified period of miliseconds.
