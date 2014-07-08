@@ -241,7 +241,6 @@ var game = {
 
 	// Tasks to be performed when user first clicks the canvas to begin the game. 
 	begin: function() {
-		
 		if (game.hasNotBegun) {
 			game.ignoreFurtherMouseClicks();
 			game.setPlayer1Dimensions();
@@ -283,29 +282,27 @@ var game = {
 		elementID.gameCanvas.addEventListener('mousemove',player1.handleMouseMovement, false);
 	},
 	
-	/*
-	 NAME game.prepare
-	 DESC Tasks to be performed when the HTML file is loaded in the browser.
-	*/  
+	// Tasks to be performed when the page is loaded in the browser.  
 	prepare: function() {
-
 		elementID.setShorthands();
-		elementID.instructions.innerHTML = 
-		"<p>Compatible with  Chrome v28, Internet Explorer v10, Firefox v27 and Opera v15</p>" + 
-		"<p><strong>Instructions:</strong> Collect " + targetToCollect + " yellow to unlock a question. " + "Avoid the red!</p>";
-		
+		game.setTextForInstructionsElement();
 		canvas.setDimensions();
 		canvas.setPlayer1Boundaries();
-		
 		player1.setImage();
 		ball.setImage();
-		
 		game.displayStartScreenText();
-
-		// Set all questions to allowed - Any question may be chosen first time around. Once a question it will not be asked again until a new game is started.
 		question.setAllAllowed();
 	},
 
+	// Set the text to be displayed in the 'instructions' div element.
+	setTextForInstructionsElement: function() {
+		elementID.instructions.innerHTML = 
+		"<p>Compatible with  Chrome v28, Internet Explorer v10, Firefox v27 and Opera v15</p>" + 
+		"<p><strong>Instructions:</strong> Collect " + 
+		targetToCollect + 
+		" yellow to unlock a question. " + "Avoid the red!</p>";
+	},
+	
 	// Display start screen text on the canvas.
 	displayStartScreenText: function() {
 		elementID.gameCanvas.getContext("2d").font = "16px Arial";
