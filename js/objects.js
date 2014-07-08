@@ -178,6 +178,12 @@ var canvas = {
 	// Clears the canvas
 	clear: function() {
 		elementID.gameCanvas.width = canvas.width;
+	},
+	
+	// Set dimensions of the canvas. Need to subtract 2, taking 1px border into account.
+	setDimensions: function() {
+		canvas.height = elementID.gameCanvas.offsetHeight - 2;
+		canvas.width = elementID.gameCanvas.offsetWidth - 2;
 	}
 };
 
@@ -278,14 +284,11 @@ var game = {
 	prepare: function() {
 
 		elementID.setShorthands();
-	
 		elementID.instructions.innerHTML = 
 		"<p>Compatible with  Chrome v28, Internet Explorer v10, Firefox v27 and Opera v15</p>" + 
 		"<p><strong>Instructions:</strong> Collect " + targetToCollect + " yellow to unlock a question. " + "Avoid the red!</p>";
 		
-		// Get Canvas dimensions from HTML file. Subtract 2, taking 1px border into account
-		canvas.height = elementID.gameCanvas.offsetHeight - 2;
-		canvas.width = elementID.gameCanvas.offsetWidth - 2;
+		canvas.setDimensions();
 		
 		// Set boundaries to prevent player1 (size 30px x 33px) going off canvas
 		player1.rightBoundary = canvas.width - 30;
@@ -307,8 +310,6 @@ var game = {
 		// Set all questions to allowed - Any question may be chosen first time around. Once a question it will not be asked again until a new game is started.
 		question.setAllAllowed();
 	},
-	
-
 	
 	
 	/*
