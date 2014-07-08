@@ -404,10 +404,8 @@ var player1 = {
 		}
 		else player1.Y = player1.bottomBoundary;
 	},
-	/*
-	 NAME player1.setImage
-	 DESC Assign player1 image.
-	*/
+	
+	// Assign player1 image.
 	setImage: function() {
 		player1.image.src = player1Src[0];
 	}
@@ -416,15 +414,13 @@ var player1 = {
 
 var question = {
 	
-	allowed: [], 		// When the game is loaded in the browser, this array is populated with an 'x' for each question in the variable 'questionList'. Once a question is asked, the corresponding 'x' is replaced with an 'o' to prevent it from being asked again.
-	ID: '',				// Used for selecting a question from 'questions' to ask the player.
+	// When the game is loaded, the array 'allowed' is populated with an 'x' for each question in 'questionList'. 
+	// Once a question has been asked, the corresponding 'x' is replaced with an 'o' to prevent it from being asked again.
+	allowed: [],
+	// Used for selecting a question from 'questions' to ask the player.
+	ID: '',
 	
-	/*
-	 NAME question.display
-	 DESC Displays a question, if there is an unasked one still available, by revealing the previously 
-	  hidden Div 'questionContainer'. If there are no questions remaining, the page is reloaded prompting 
-	  a new game to be started.
-	*/
+	// Displays a question, if there is an unasked one still available, by revealing the previously hidden Div 'questionContainer'. If there are no questions remaining, the page is reloaded prompting a new game to be started.
 	display: function() { 
 		if (question.exists()) {
 			question.select();
