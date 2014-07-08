@@ -243,7 +243,7 @@ var game = {
 			game.ignoreFurtherMouseClicks();
 			game.setPlayer1Dimensions();
 			game.setBallDimensions();
-			game.addEventListenerForMouseMovement();
+			game.addEventListenerForMouseMovement();			
 			game.startTick();
 		}
 	},
@@ -277,7 +277,7 @@ var game = {
 	
 	// Add event listener to deal with movement of player1 by mouse.
 	addEventListenerForMouseMovement: function() {
-		elementID.gameCanvas.addEventListener('mousemove',player1.handleMouseMovement, false);
+		elementID.gameCanvas.addEventListener('mousemove',player1.setCoordinates, false);
 	},
 	
 	// Tasks to be performed when the page is loaded in the browser.  
@@ -358,7 +358,7 @@ var player1 = {
 	X: 0,
 	Y: 0,
 	
-	// Draw player1 at co-ordinates (player1.X, player1.Y) which are defined by the mouse coordinates in the function handleMouseMovement().
+	// Draw player1 at co-ordinates (player1.X, player1.Y) which are defined by the mouse coordinates in the function setCoordinates().
 	// PARA - "state" - Same image source used each tick.
 	// PARA - "flash" - Image source is alternated to create flasing effect.
 	draw: function(state,speed) {
@@ -371,13 +371,12 @@ var player1 = {
 			speed=5;
 		}
 		
-		// Define options for argument "state".	
+		// Options for argument "state".	
 		if (state=="solid") {
 			elementID.gameCanvas.getContext("2d").drawImage(player1.image, player1.X, player1.Y);
 		}
 		
 		if (state=="flash") {
-			// Select image source based on value of "speed".
 			if(game.tickCounter % 2*speed < speed) {
 				player1.image.src = player1Src[0];
 			}
@@ -389,42 +388,21 @@ var player1 = {
 	},
 
 	
-	/*
-	 NAME player1.handleMouseMovement
-	 DESC Allows player1 to be controlled by the mouse and prevents player1 going off canvas. 
-	   OffsetX doesn't work in Firefox 22.0 so layerX mst be used instead.
-	 PARA mouseEvent
-	*/
-	handleMouseMovement: function(mouseEvent) {
-		
-		var x = mouseEvent.offsetX==undefined?mouseEvent.layerX:mouseEvent.offsetX; 
-		var y = mouseEvent.offsetY==undefined?mouseEvent.layerY:mouseEvent.offsetY;
+	// Pairs player1 co-ordinates with the mouse co-ordinates. 
+	setCoordinates: function(mouseEvent) {
+		// OffsetX doesn't work in Firefox 22.0 so layerX mst be used instead.
+		var mouseX = mouseEvent.offsetX==undefined?mouseEvent.layerX:mouseEvent.offsetX; 
+		var mouseY = mouseEvent.offsetY==undefined?mouseEvent.layerY:mouseEvent.offsetY;
 				
-		// Set avatar.X
-		if (x < player1.rightBoundary) {
-			player1.X = x;
+		if (mouseX < player1.rightBoundary) {
+			player1.X = mouseX;
 		}
 		else player1.X = player1.rightBoundary;
 		
-		// Set avatar.Y
-		if (y < player1.bottomBoundary) {
-			player1.Y = y;
+		if (mouseY < player1.bottomBoundary) {
+			player1.Y = mouseY;
 		}
 		else player1.Y = player1.bottomBoundary;
-		
-		
-		
-		// Set player1.X
-		//if (mouseEvent.offsetX < player1.rightBoundary) {
-		//	player1.X = mouseEvent.offsetX;
-		//}
-		//else player1.X = player1.rightBoundary;
-		//
-		// Set player1.Y
-		//if (mouseEvent.offsetY < player1.bottomBoundary) {
-		//	player1.Y = mouseEvent.offsetY;
-		//}
-		//else player1.Y = player1.bottomBoundary;
 	},
 	/*
 	 NAME player1.setImage
