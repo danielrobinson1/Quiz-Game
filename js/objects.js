@@ -184,7 +184,13 @@ var canvas = {
 	setDimensions: function() {
 		canvas.height = elementID.gameCanvas.offsetHeight - 2;
 		canvas.width = elementID.gameCanvas.offsetWidth - 2;
-	}
+	},
+	
+	// Set boundaries to prevent player1 (image size 30px x 33px) going off canvas
+	setPlayer1Boundaries: function() {
+		player1.rightBoundary = canvas.width - 30;
+		player1.bottomBoundary = canvas.height - 33;
+	},
 };
 
 var elementID = {	
@@ -290,9 +296,7 @@ var game = {
 		
 		canvas.setDimensions();
 		
-		// Set boundaries to prevent player1 (size 30px x 33px) going off canvas
-		player1.rightBoundary = canvas.width - 30;
-		player1.bottomBoundary = canvas.height - 33;
+		canvas.setPlayer1Boundaries();
 		
 		// Set width of question box - Is this needed?
 		//elementID.questionContainer.style.width=canvas.width*9/10;
@@ -310,6 +314,7 @@ var game = {
 		// Set all questions to allowed - Any question may be chosen first time around. Once a question it will not be asked again until a new game is started.
 		question.setAllAllowed();
 	},
+	
 	
 	
 	/*
