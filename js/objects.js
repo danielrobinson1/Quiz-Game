@@ -194,9 +194,7 @@ var canvas = {
 };
 
 var elementID = {	
-	// HTML elements. Initialized by game.prepare() when HTML file is loaded.
-	// elementID used as shorthand for document.getElementById()
-	// Look into jquery instead, where selectors $() can be used for exactly this purpose.
+
 	answerButtons: '',
 	answerCorrect: '',
 	answerIncorrect: '',
@@ -332,6 +330,7 @@ var game = {
 		setTimeout(game.startTick,2000);
 	},
 	
+	// Display text 'Get Ready'.
 	displayGetReadyScreen: function() {
 		elementID.gameCanvas.getContext("2d").font = "16px Arial";
 		elementID.gameCanvas.getContext("2d").textBaseline = "center";
@@ -339,16 +338,8 @@ var game = {
 		elementID.gameCanvas.getContext("2d").fillText("Get Ready!",canvas.width/2,canvas.height/2);
 	},
 	
-	/*
-	 NAME game.startTick
-	 DESC Start executing the function handleTick at the specified period of miliseconds.
-	  Start countdown timer and change value of game.initialClick to prevent any further calls 
-	  of the setInterval commands via the function game.begin(). Failing to change game.initialClick, 
-	  would mean that any accidental mouse clicks increase the speed of the game.
-	*/
+	// Start executing the function handleTick at the specified period of miliseconds. Start countdown timer.
 	startTick: function() {
-		
-		//elementID.gameCanvas.addEventListener('mousemove',player1.handleMouseMovement, false);	
 		elementID.gameCanvas.style.cursor='none';
 		game.handleTickHold = setInterval(handleTick,25);
 		game.countdownHold = setInterval(timer.countdown,1000);
