@@ -358,13 +358,9 @@ var player1 = {
 	X: 0,
 	Y: 0,
 	
-	/* 
-	 NAME player1.draw
-	 DESC Draw player1 at co-ordinates (player1.X, player1.Y) which are defined 
-	  by the mouse coordinates in the function handleMouseMovement().
-	 PARA - "state" - Same image source used each tick.
-	 PARA - "flash" - Image source is alternated to create flasing effect.
-	*/
+	// Draw player1 at co-ordinates (player1.X, player1.Y) which are defined by the mouse coordinates in the function handleMouseMovement().
+	// PARA - "state" - Same image source used each tick.
+	// PARA - "flash" - Image source is alternated to create flasing effect.
 	draw: function(state,speed) {
 	
 		// Set argument defaults in case undefined.
@@ -375,27 +371,24 @@ var player1 = {
 			speed=5;
 		}
 		
-		// Define options for argument "state".
-		var twiceSpeed = 2*speed;
-		
+		// Define options for argument "state".	
 		if (state=="solid") {
-		
 			elementID.gameCanvas.getContext("2d").drawImage(player1.image, player1.X, player1.Y);
 		}
 		
 		if (state=="flash") {
-		
 			// Select image source based on value of "speed".
-			if(game.tickCounter % twiceSpeed < speed) {
+			if(game.tickCounter % 2*speed < speed) {
 				player1.image.src = player1Src[0];
 			}
 			else { 
 				player1.image.src = player1Src[1];
 			}
-			// Draw.
 			elementID.gameCanvas.getContext("2d").drawImage(player1.image, player1.X, player1.Y);
 		}
 	},
+
+	
 	/*
 	 NAME player1.handleMouseMovement
 	 DESC Allows player1 to be controlled by the mouse and prevents player1 going off canvas. 
