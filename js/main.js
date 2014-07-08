@@ -73,7 +73,7 @@ function displayQuestionIfTargetReached() {
 // if the final ball is collected together with another in quick succession.
 	if (isTargetReached()) {
 		updateScreen();		//Check - Do we just need to update the score?
-		game.pauseTick();
+		game.pause();
 		question.display();
 	}
 }
@@ -84,7 +84,7 @@ function isTargetReached() {
 
 function checkIfGameOver() {
 	if (isGameOver()) {
-		game.pauseTick();
+		game.pause();
 		alert("Game over");
 		location.reload();
 	}

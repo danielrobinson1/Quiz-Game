@@ -311,12 +311,8 @@ var game = {
 		elementID.gameCanvas.getContext("2d").fillText("Click screen to start new game",canvas.width / 2,canvas.height / 2);
 	},
 	
-	/*
-	 NAME game.pauseTick
-	 DESC Pauses the game.
-	*/
-	pauseTick: function() {
-
+	//Pauses the game.
+	pause: function() {
 		clearInterval(game.handleTickHold);
 		clearInterval(game.countdownHold);
 	},
