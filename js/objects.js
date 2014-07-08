@@ -295,27 +295,24 @@ var game = {
 		"<p><strong>Instructions:</strong> Collect " + targetToCollect + " yellow to unlock a question. " + "Avoid the red!</p>";
 		
 		canvas.setDimensions();
-		
 		canvas.setPlayer1Boundaries();
 		
-		// Set width of question box - Is this needed?
-		//elementID.questionContainer.style.width=canvas.width*9/10;
-		
-		// Assign image sources.
 		player1.setImage();
 		ball.setImage();
 		
-		// Startscreen text.
+		game.displayStartScreenText();
+
+		// Set all questions to allowed - Any question may be chosen first time around. Once a question it will not be asked again until a new game is started.
+		question.setAllAllowed();
+	},
+
+	// Display start screen text on the canvas.
+	displayStartScreenText: function() {
 		elementID.gameCanvas.getContext("2d").font = "16px Arial";
 		elementID.gameCanvas.getContext("2d").textBaseline = "center";
 		elementID.gameCanvas.getContext("2d").textAlign = "center";
 		elementID.gameCanvas.getContext("2d").fillText("Click screen to start new game",canvas.width / 2,canvas.height / 2);
-		
-		// Set all questions to allowed - Any question may be chosen first time around. Once a question it will not be asked again until a new game is started.
-		question.setAllAllowed();
 	},
-	
-	
 	
 	/*
 	 NAME game.pauseTick
