@@ -569,28 +569,24 @@ var scoring = {
 			scoring.noCollected--;
 		}
 	},
-	/*
-	 NAME scoring.detectCollisions
-	 DESC Loop through each ball in turn and check whether the player1 overlaps it.
-	  If so check which type of ball has been hit and increase/ decrease noCollected as necessary.
-	*/
+	
+	// Detect collisions, update noCollected and remove any balls collected.
 	detectCollisions: function() {
-
 		var i = 0;
 		var numberOfBalls = ball.XPositions.length;
 	
 		while (i < numberOfBalls) {
-			if ( 
-				( scoring.collisionLeftHasOccurred(i) || scoring.collisionRightHasOccurred(i) ) 
-				&& 
-				( scoring.collisionBottomHasOccurred(i) || scoring.collisionTopHasOccurred(i) ) 
+			if (
+				(scoring.collisionLeftHasOccurred(i) || scoring.collisionRightHasOccurred(i)) && 
+				(scoring.collisionBottomHasOccurred(i) || scoring.collisionTopHasOccurred(i))
 			) {
 				scoring.updateNoCollected(i);
 				ball.remove(i);
 			}
 			i++;
 		} 
-	},	
+	},
+	
 	/*
 	 NAME scoring.displayNoCollected 
 	 DESC Display no: of yellow balls collected. 
