@@ -422,7 +422,7 @@ var question = {
 	
 	// Displays a question, if there is an unasked one still available.
 	selectAndDisplayQuestion: function() { 
-		if (question.exists()) {
+		if (question.unaskedQuestionsExist()) {
 			question.select();
 			answer.setOrder();
 			button.assignAnswers();
@@ -447,11 +447,8 @@ var question = {
 		elementID.gameCanvas.style.cursor='auto';
 	},
 	
-	/*
-	 NAME question.exists
-	 DESC Returns true if there are unasked questions remaining. Otherwise returns false.
-	*/
-	exists: function() {
+	// Returns true if there are unasked questions remaining. Otherwise returns false.
+	unaskedQuestionsExist: function() {
 		var noOfQuestions = questionList.length / 5;
 		var i=0;
 		var count=0;
