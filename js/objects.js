@@ -470,10 +470,11 @@ var question = {
 	select: function() {
 		var questionHasBeenSelected = false;
 		var noOfQuestions = questionList.length / 5;
-		var n = random.integer(noOfQuestions-1);
 		
 		// If question number 'n ' is available (marked 'x'), set question.ID and make unavailable for future use (marked 'o').
 		while (questionHasBeenSelected == false) {
+			var n = random.integer(noOfQuestions-1);
+			
 			if (question.allowed[n] == "x") {
 				question.ID = n;
 				question.allowed[n] = "o";
@@ -504,21 +505,16 @@ var random = {
 		return Math.floor((Math.random()*m)); 
 	},
 	
-	/*
-	 NAME random.sequence
-	 DESC Randomly orders the integers from 0 to x.
-	 PARA x - The highest integer in the sequence.
-	 RETN Array with the randomly ordered integers. 
-	*/
-	sequence: function(x) {
-		var i=x;
+	// Randomly orders the integers from 0 to the parameter n.
+	sequence: function(n) {
+		var i=n;
 		var oneToFour = [1,2,3,4];
 		var result=[];
 		
 		while (i > -1) {
-			var y = random.integer(i);
-			result.push(oneToFour[y]);
-			oneToFour.splice(y,1);
+			var r = random.integer(i);
+			result.push(oneToFour[r]);
+			oneToFour.splice(r,1);
 			i --;
 		}
 		
