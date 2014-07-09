@@ -1,4 +1,3 @@
-
 var answer = {
 	// Determines the order in which answers are assigned to the buttons
 	buttonOrderSequence: [],
@@ -228,7 +227,6 @@ var elementID = {
 	},
 };
 
-
 var game = {
 	
 	//Variables used to store return values of setInterval in game.startTick().
@@ -338,14 +336,13 @@ var game = {
 		elementID.gameCanvas.getContext("2d").fillText("Get Ready!",canvas.width/2,canvas.height/2);
 	},
 	
-	// Start executing the function handleTick at the specified period of miliseconds. Start countdown timer.
+	// Start executing the function handleTick at the specified period of miliseconds. Start decreaseBy1Second timer.
 	startTick: function() {
 		elementID.gameCanvas.style.cursor='none';
 		game.handleTickHold = setInterval(handleTick,25);
-		game.countdownHold = setInterval(timer.countdown,1000);
+		game.countdownHold = setInterval(timer.decreaseBy1Second,1000);
 	}
 };
-
 
 var player1 = {
 
@@ -410,7 +407,6 @@ var player1 = {
 		player1.image.src = player1Src[0];
 	}
 };
-
 
 var question = {
 	
@@ -495,7 +491,6 @@ var question = {
 	}
 };
 
-
 var random = {
 
 	// Pick a random integer between 0 and and the parameter n.
@@ -521,7 +516,6 @@ var random = {
 		return result;
 	}
 };
-
 
 var scoring = {
 	
@@ -609,32 +603,26 @@ var scoring = {
 	}
 };
 
-
 var timer = {
 	
-	time: initialTimerValue,
+	timeRemaining: initialTimerValue,
 	
-	/*
-	 NAME timer.countdown
-	 DESC Decrease timer by 1 second. 
-	*/
-	countdown: function() {
-		timer.time--;
+	// Decrease timer by 1 second. 
+	decreaseBy1Second: function() {
+		timer.timeRemaining--;
 	},
-	/*
-	 NAME timer.display
-	 DESC Display current time remaining. 
-	*/
-	display: function() {
 	
+	// Display current time remaining. 
+	display: function() {
 		elementID.gameCanvas.getContext("2d").font = "16px Arial";
 		elementID.gameCanvas.getContext("2d").textBaseline = "top";
 		elementID.gameCanvas.getContext("2d").textAlign = "left";
-		elementID.gameCanvas.getContext("2d").fillText("Time: " + Math.max(0,timer.time),5,45);		//Prevent timer displaying "-1";
+		elementID.gameCanvas.getContext("2d").fillText("Time: " + Math.max(0,timer.timeRemaining),5,45);
 	},
+	
+	// Add time to the timer but never allow it to be topped up above it's initial value.
 	topup: function () {
-		
-		timer.time = Math.min(timer.time + timerTopupAmount, initialTimerValue);
+		timer.timeRemaining = Math.min(timer.timeRemaining + timerTopupAmount, initialTimerValue);
 	}
 };
 

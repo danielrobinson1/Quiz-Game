@@ -90,5 +90,5 @@ function checkIfGameOver() {
 }
 
 function isGameOver() {
-	return scoring.noCollected < 0 || timer.time < 0;
+	return scoring.noCollected < 0 || timer.timeRemaining < 0;
 }
