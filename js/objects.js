@@ -34,13 +34,13 @@ var answer = {
 var ball = {
 	// Determines type of ball: "yellow" or "red"
 	ID: [],
-	// Assuming all types of ball have the same dimensions. Used in scoring.collisionBottom
+	// Assuming all types of ball have the same dimensions. Used in scoring.collisionBottomHasOccurred
 	height: '',
 	numberOf: 0,
 	speed: [],
 	yellowBallImage: new Image(),
 	redBallImage: new Image(),
-	// Assuming all types of ball have the same dimensions. Used in scoring.collisionTop
+	// Assuming all types of ball have the same dimensions. Used in scoring.collisionTopHasOccurred
 	width: '',
 	XPositions: [],
 	YPositions: [],
@@ -528,41 +528,33 @@ var scoring = {
 	score: 0,
 	noCollected: 0,
 	
-	collisionLeft: function(n) {
-	// Check if player1 hits left side of ball.
-	
+	// Check for collisions between player1 and left side of nth ball.
+	collisionLeftHasOccurred: function(n) {
 		if (player1.X < ball.XPositions[n] && ball.XPositions[n] < player1.X + player1.width) {
-		
 			return true;
 		}
 		else return false;
 	},
 	
-	collisionRight: function(n) {
-	// Check if player1 hits right side of ball.
-		
+	// Check for collisions between player1 and right side of nth ball.
+	collisionRightHasOccurred: function(n) {		
 		if (ball.XPositions[n] < player1.X && player1.X < ball.XPositions[n] + ball.width) {
-		
 			return true;
 		}
 		else return false;
 	},
 	
-	collisionTop: function(n) {
-	// Check if player1 hits top side of ball.
-	
+	// Check for collisions between player1 and top side of nth ball.
+	collisionTopHasOccurred: function(n) {
 		if (player1.Y < ball.YPositions[n] && ball.YPositions[n] < player1.Y + player1.height) {
-		
 			return true;
 		}
 		else return false;
 	},
 	
-	collisionBottom: function(n) {
-	// Check if player1 hits bottom side of ball.
-	
+	// Check for collisions between player1 and bottom side of nth ball.
+	collisionBottomHasOccurred: function(n) {	
 		if (ball.YPositions[n] < player1.Y && player1.Y < ball.YPositions[n] + ball.height) {
-		
 			return true;
 		}
 		else return false;
@@ -588,9 +580,9 @@ var scoring = {
 	
 		while (i < numberOfBalls) {
 			if ( 
-				( scoring.collisionLeft(i) || scoring.collisionRight(i) ) 
+				( scoring.collisionLeftHasOccurred(i) || scoring.collisionRightHasOccurred(i) ) 
 				&& 
-				( scoring.collisionBottom(i) || scoring.collisionTop(i) ) 
+				( scoring.collisionBottomHasOccurred(i) || scoring.collisionTopHasOccurred(i) ) 
 			) {
 				scoring.updateNoCollected(i);
 				ball.remove(i);
