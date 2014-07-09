@@ -587,30 +587,23 @@ var scoring = {
 		} 
 	},
 	
-	/*
-	 NAME scoring.displayNoCollected 
-	 DESC Display no: of yellow balls collected. 
-	*/
+	// Display no: of yellow balls collected in current round, (minus any red balls collected).
 	displayNoCollected: function() {
 		elementID.gameCanvas.getContext("2d").font = "16px Arial";
 		elementID.gameCanvas.getContext("2d").textBaseline = "top";
 		elementID.gameCanvas.getContext("2d").textAlign = "left";
 		elementID.gameCanvas.getContext("2d").fillText("Collected: " + scoring.noCollected,5,25);
 	},
-	/*
-	 NAME scoring.displayScore
-	 DESC Display score (no of questions correctly answered). 
-	*/
+	
+	// Display score (no: of questions correctly answered).
 	displayScore: function() {
 		elementID.gameCanvas.getContext("2d").font = "16px Arial";
 		elementID.gameCanvas.getContext("2d").textBaseline = "top";
 		elementID.gameCanvas.getContext("2d").textAlign = "left";
 		elementID.gameCanvas.getContext("2d").fillText("Score: " + scoring.score,5,5);
 	},
-	/*
-	 NAME scoring.resetNoCollected
-	 DESC Reset noCollected to zero.
-	*/
+	
+	// Reset noCollected to zero ready for a new round.
 	resetNoCollected: function() {
 		scoring.noCollected = 0;
 	}
