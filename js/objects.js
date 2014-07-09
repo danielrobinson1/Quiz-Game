@@ -421,14 +421,13 @@ var question = {
 	ID: '',
 	
 	// Displays a question, if there is an unasked one still available, by revealing the previously hidden Div 'questionContainer'. If there are no questions remaining, the page is reloaded prompting a new game to be started.
-	display: function() { 
+	selectAndDisplayQuestion: function() { 
 		if (question.exists()) {
 			question.select();
 			answer.setOrder();
-			elementID.questionText.innerHTML = "Question: " + questionList[question.ID*5];
 			button.assignAnswers();
-			elementID.questionContainer.style.display="block";
-			elementID.gameCanvas.style.cursor='auto';
+			question.displayQuestion();
+			question.displayCursor();
 			answer.submitted = 0;
 		}
 		else {
@@ -436,6 +435,16 @@ var question = {
 			location.reload();
 		}
 	},
+	
+	displayQuestion: function() {
+		elementID.questionText.innerHTML = "Question: " + questionList[question.ID*5];
+		elementID.questionContainer.style.display="block";
+	},
+	
+	displayCursor: function() {
+		elementID.gameCanvas.style.cursor='auto';
+	},
+	
 	/*
 	 NAME question.exists
 	 DESC Returns true if there are unasked questions remaining. Otherwise returns false.

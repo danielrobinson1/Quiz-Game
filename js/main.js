@@ -74,7 +74,7 @@ function displayQuestionIfTargetReached() {
 	if (isTargetReached()) {
 		updateScreen();		//Check - Do we just need to update the score?
 		game.pause();
-		question.display();
+		question.selectAndDisplayQuestion();
 	}
 }
 
