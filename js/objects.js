@@ -472,7 +472,7 @@ var question = {
 		var noOfQuestions = questionList.length / 5;
 		var n = random.integer(noOfQuestions-1);
 		
-		// If question number n is available (marked x) set question.ID and make unavailable for future use (marked o).
+		// If question number 'n ' is available (marked 'x'), set question.ID and make unavailable for future use (marked 'o').
 		while (questionHasBeenSelected == false) {
 			if (question.allowed[n] == "x") {
 				question.ID = n;
@@ -481,11 +481,8 @@ var question = {
 			}
 		}
 	},
-	/*
-	 NAME question.setAllAllowed
-	 DESC Populates entries of array question.allowed with an 'x' for each question.
-	  The 'x' wil become an 'o' once that question has been asked to prevent it being asked again.
-	*/
+	
+	// Make all questions available to be asked.
 	setAllAllowed: function() {
 		var noOfQuestions = questionList.length / 5;
 		var i=0;
@@ -500,19 +497,13 @@ var question = {
 
 var random = {
 
-	
-
-	/*
-	 NAME random.integer
-	 DESC Pick a random integer between 0 and x.
-	 PARA x - Max integer that will be returned.
-	 RETN The randomly chosen integer.
-	*/
-	integer: function(x) {
-		var y = x+1;
+	// Pick a random integer between 0 and and the parameter n.
+	integer: function(n) {
+		var m = n+1;
 		
-		return Math.floor((Math.random()*y)); 
+		return Math.floor((Math.random()*m)); 
 	},
+	
 	/*
 	 NAME random.sequence
 	 DESC Randomly orders the integers from 0 to x.
