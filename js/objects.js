@@ -420,7 +420,7 @@ var question = {
 	// Used for selecting a question from 'questions' to ask the player.
 	ID: '',
 	
-	// Displays a question, if there is an unasked one still available, by revealing the previously hidden Div 'questionContainer'. If there are no questions remaining, the page is reloaded prompting a new game to be started.
+	// Displays a question, if there is an unasked one still available.
 	selectAndDisplayQuestion: function() { 
 		if (question.exists()) {
 			question.select();
@@ -436,11 +436,13 @@ var question = {
 		}
 	},
 	
+	// Display the selected question.
 	displayQuestion: function() {
 		elementID.questionText.innerHTML = "Question: " + questionList[question.ID*5];
 		elementID.questionContainer.style.display="block";
 	},
 	
+	// Make cursor visible.
 	displayCursor: function() {
 		elementID.gameCanvas.style.cursor='auto';
 	},
