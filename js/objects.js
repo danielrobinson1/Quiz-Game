@@ -560,6 +560,7 @@ var scoring = {
 		else return false;
 	},
 		
+	// Increase or decrease the value of scoring.noCollected.
 	updateNoCollected: function(n) {
 		if (ball.ID[n] == "yellow") {
 			scoring.noCollected++;
