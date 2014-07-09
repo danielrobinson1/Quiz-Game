@@ -453,7 +453,6 @@ var question = {
 		var i=0;
 		var count=0;
 		
-		// Count number of questions already asked.
 		while (i<noOfQuestions) {
 			if (question.allowed[i]=="o") {
 				count++;
@@ -466,22 +465,19 @@ var question = {
 		}
 		else return true;
 	},
-	/*
-	 NAME question.select
-	 DESC Select a question at random, which hasn't been asked already.
-	*/
+	
+	// Select a question at random, (which hasn't been asked already).
 	select: function() {
-		var setQuestionCompleted = 0;
+		var questionHasBeenSelected = false;
 		var noOfQuestions = questionList.length / 5;
+		var n = random.integer(noOfQuestions-1);
 		
 		// If question number n is available (marked x) set question.ID and make unavailable for future use (marked o).
-		while (setQuestionCompleted == 0) {
-			var n = random.integer(noOfQuestions-1);
-			
+		while (questionHasBeenSelected == false) {
 			if (question.allowed[n] == "x") {
 				question.ID = n;
 				question.allowed[n] = "o";
-				setQuestionCompleted = 1;
+				questionHasBeenSelected = true;
 			}
 		}
 	},
@@ -503,6 +499,8 @@ var question = {
 
 
 var random = {
+
+	
 
 	/*
 	 NAME random.integer

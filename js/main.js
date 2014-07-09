@@ -2,18 +2,17 @@ var questionList = [
 // [Question, Correct answer, Three Incorrect answers].
 // Add new questions and answers to the array. No further code modification required.
 	/*0*/ "What is 2+2?", "4","0","1","2", 
-	/*1*/ "What is the capital of England?", "London","Leeds","Manchester","E",
-	/*2*/ "What is the biggest planet in the solar system?", "Jupiter","Pluto","Earth","Goofy",
-	/*3*/ "What is the highest mountain in the world?", "Mt Everest", "Kilimanjaro", "Ben Nevis", "Mont Blanc",
-	/*4*/ "How many seconds are there in one day?", "86400", "72600", "64800", "48200",
-	/*5*/ "What is the German for goodbye?", "Auf wiedersehen", "Bonjour", "Danke", "Fromage",
-	/*6*/ "Who is the president of the U.S.A?", "Barrack Obama", "B.A. Baracus", "Bacchus", "Buck Rogers",
-	/*7*/ "Who was the first man on the moon?", "Neil Armstrong", "Lance Armstrong", "Louis Armstrong", "Stretch Armstrong",
-	/*8*/ "Spell 'Morse' in Morse code.", "-- / --- / .-. / ... / .", ".-.. / . / .-- / .. / ...", "..-. / .-. / --- / ... / -", "--. / .- / -.. / --. / . / -", 
-	/*9*/ "What is the name of the robot in the film Short Circuit?", "Johnny 5", "Alpha 5", "Babylon 5", "Abz from 5ive",
+	/*1*/ //"What is the capital of England?", "London","Leeds","Manchester","E",
+	/*2*/ //"What is the biggest planet in the solar system?", "Jupiter","Pluto","Earth","Goofy",
+	/*3*/ //"What is the highest mountain in the world?", "Mt Everest", "Kilimanjaro", "Ben Nevis", "Mont Blanc",
+	/*4*/ //"How many seconds are there in one day?", "86400", "72600", "64800", "48200",
+	/*5*/ //"What is the German for goodbye?", "Auf wiedersehen", "Bonjour", "Danke", "Fromage",
+	/*6*/ //"Who is the president of the U.S.A?", "Barrack Obama", "B.A. Baracus", "Bacchus", "Buck Rogers",
+	/*7*/ //"Who was the first man on the moon?", "Neil Armstrong", "Lance Armstrong", "Louis Armstrong", "Stretch Armstrong",
+	/*8*/ //"Spell 'Morse' in Morse code.", "-- / --- / .-. / ... / .", ".-.. / . / .-- / .. / ...", "..-. / .-. / --- / ... / -", "--. / .- / -.. / --. / . / -", 
+	/*9*/ //"What is the name of the robot in the film Short Circuit?", "Johnny 5", "Alpha 5", "Babylon 5", "Abz from 5ive",
 	
-	/*10*/ "Who wrote 'The Odyssey'?", "Homer", "Bart", "Lisa", "Maggie",
-	
+	/*10*/ //"Who wrote 'The Odyssey'?", "Homer", "Bart", "Lisa", "Maggie",
 	];
 
 	//trailing comma on last line of array may cause a fit to be thrown 
