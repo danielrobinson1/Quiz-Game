@@ -1,3 +1,23 @@
+
+var settings = {
+	// Probability that a ball is created on a given tick.
+	probabilityBallIsGenerated: 0.2,
+	// Determines max possible falling speed that balls may be assigned.
+	ballSpeedLimit: 5,
+	// Probability that a given ball, once created, is yellow.
+	probabilityBallID: 0.5,
+	// Number of seconds to appear on the timer when the game begins.
+	initialTimerValue: 60,
+	// Number of seconds to add to timer when a question is answered correctly.
+	timerTopupAmount: 10,
+	// No of balls to collect before a question is asked.
+	targetToCollect: 20,
+	// Image source for player 1. Multiple images used when player1.draw argument is set to "flash".
+	player1Src: ["img/blue.png", "img/white.png"],
+	// Image source for balls.
+	ballSrc: ["img/yellow.png","img/red.png"]
+};
+
 var answer = {
 	// Determines the order in which answers are assigned to the buttons
 	buttonOrderSequence: [],
@@ -68,7 +88,7 @@ var ball = {
 	
 	// Assigns a type to a new ball, red or yellow
 	generateType: function() {
-		if (Math.random() < probabilityBallID) {
+		if (Math.random() < settings.probabilityBallID) {
 			ball.ID.push("yellow");
 		}
 		else ball.ID.push("red");
@@ -121,8 +141,8 @@ var ball = {
 	},
 	// Assign ball images
 	setImage: function() {
-		ball.yellowBallImage.src = ballSrc[0];
-		ball.redBallImage.src = ballSrc[1];
+		ball.yellowBallImage.src = settings.ballSrc[0];
+		ball.redBallImage.src = settings.ballSrc[1];
 	}
 };
 
@@ -295,7 +315,7 @@ var game = {
 		elementID.instructions.innerHTML = 
 		"<p>Compatible with  Chrome v28, Internet Explorer v10, Firefox v27 and Opera v15</p>" + 
 		"<p><strong>Instructions:</strong> Collect " + 
-		targetToCollect + 
+		settings.targetToCollect + 
 		" yellow to unlock a question. " + "Avoid the red!</p>";
 	},
 	
@@ -375,10 +395,10 @@ var player1 = {
 		
 		if (state=="flash") {
 			if(game.tickCounter % 2*speed < speed) {
-				player1.image.src = player1Src[0];
+				player1.image.src = settings.player1Src[0];
 			}
 			else { 
-				player1.image.src = player1Src[1];
+				player1.image.src = settings.player1Src[1];
 			}
 			elementID.gameCanvas.getContext("2d").drawImage(player1.image, player1.X, player1.Y);
 		}
@@ -404,7 +424,7 @@ var player1 = {
 	
 	// Assign player1 image.
 	setImage: function() {
-		player1.image.src = player1Src[0];
+		player1.image.src = settings.player1Src[0];
 	}
 };
 
@@ -622,7 +642,7 @@ var scoring = {
 
 var timer = {
 	
-	timeRemaining: initialTimerValue,
+	timeRemaining: settings.initialTimerValue,
 	
 	// Decrease timer by 1 second. 
 	decreaseBy1Second: function() {
@@ -639,7 +659,7 @@ var timer = {
 	
 	// Add time to the timer but never allow it to be topped up above it's initial value.
 	topup: function () {
-		timer.timeRemaining = Math.min(timer.timeRemaining + timerTopupAmount, initialTimerValue);
+		timer.timeRemaining = Math.min(timer.timeRemaining + settings.timerTopupAmount, settings.initialTimerValue);
 	}
 };
 

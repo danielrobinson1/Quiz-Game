@@ -1,19 +1,3 @@
-// Probability that a ball is created on a given tick.
-var probabilityBallIsGenerated = 0.2;
-// Determines max possible falling speed that balls may be assigned.
-var ballSpeedLimit = 5;
-// Probability that a given ball, once created, is yellow.
-var probabilityBallID = 0.5;
-// Number of seconds to appear on timer when the game begins.
-var initialTimerValue = 60;
-// Number of seconds to add to timer when a question is answered correctly.
-var timerTopupAmount = 10;
-// No of balls to collect before a question is asked.
-var targetToCollect = 20;
-// Image source for player 1. Multiple images used when player1.draw argument is set to "flash".
-var player1Src = ["img/blue.png", "img/white.png"];
-// Image source for balls.
-var ballSrc = ["img/yellow.png","img/red.png"];
 
 // Tasks to be performed on each tick.
 function handleTick() {
@@ -25,10 +9,10 @@ function handleTick() {
 	game.tickCounter++;
 }
 
-// Create a ball with random speed (upto the value of ballSpeedLimit, 
+// Create a ball with random speed (upto the value of settings.ballSpeedLimit, 
 // on a given tick with probability specified by probabiiltyBallIsGenerated.
 function randomlyGenerateBallWithRandomSpeed() {
-	ball.generateBall(probabilityBallIsGenerated,ballSpeedLimit);
+	ball.generateBall(settings.probabilityBallIsGenerated,settings.ballSpeedLimit);
 }
 
 // Draw characters in new positions and refresh score and time.
@@ -72,7 +56,7 @@ function displayQuestionIfTargetReached() {
 
 // Check if target number of balls has been collected.
 function isTargetReached() {
-	return scoring.noCollected >= targetToCollect;
+	return scoring.noCollected >= settings.targetToCollect;
 }
 
 // End the game if game over conditions are met.
