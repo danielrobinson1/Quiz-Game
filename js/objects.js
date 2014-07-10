@@ -130,10 +130,10 @@ var button = {
 	
 	// Assign the answers to the buttons
 	assignAnswers: function() {
-		elementID.buttonA.innerHTML = questionList[question.ID*5 + answer.buttonOrderSequence[0]];
-		elementID.buttonB.innerHTML = questionList[question.ID*5 + answer.buttonOrderSequence[1]];
-		elementID.buttonC.innerHTML = questionList[question.ID*5 + answer.buttonOrderSequence[2]];
-		elementID.buttonD.innerHTML = questionList[question.ID*5 + answer.buttonOrderSequence[3]];
+		elementID.buttonA.innerHTML = question.questionList[question.ID*5 + answer.buttonOrderSequence[0]];
+		elementID.buttonB.innerHTML = question.questionList[question.ID*5 + answer.buttonOrderSequence[1]];
+		elementID.buttonC.innerHTML = question.questionList[question.ID*5 + answer.buttonOrderSequence[2]];
+		elementID.buttonD.innerHTML = question.questionList[question.ID*5 + answer.buttonOrderSequence[3]];
 	},
 	
 	// Executed when button A is clicked. Check whether the answer is correct
@@ -415,6 +415,23 @@ var question = {
 	allowed: [],
 	// Used for selecting a question from 'questions' to ask the player.
 	ID: '',
+	// [Question, Correct answer, Three Incorrect answers].
+	// Add new questions and answers to the array. No further code modification required.
+	// Trailing comma on last line of array may cause a fit to be thrown in IE < 9 but is correct code.
+	questionList: [
+	/*0*/ "What is 2+2?", "4","0","1","2", 
+	/*1*/ "What is the capital of England?", "London","Leeds","Manchester","E",
+	/*2*/ "What is the biggest planet in the solar system?", "Jupiter","Pluto","Earth","Goofy",
+	/*3*/ "What is the highest mountain in the world?", "Mt Everest", "Kilimanjaro", "Ben Nevis", "Mont Blanc",
+	/*4*/ "How many seconds are there in one day?", "86400", "72600", "64800", "48200",
+	/*5*/ "What is the German for goodbye?", "Auf wiedersehen", "Bonjour", "Danke", "Fromage",
+	/*6*/ "Who is the president of the U.S.A?", "Barrack Obama", "B.A. Baracus", "Bacchus", "Buck Rogers",
+	/*7*/ "Who was the first man on the moon?", "Neil Armstrong", "Lance Armstrong", "Louis Armstrong", "Stretch Armstrong",
+	/*8*/ "Spell 'Morse' in Morse code.", "-- / --- / .-. / ... / .", ".-.. / . / .-- / .. / ...", "..-. / .-. / --- / ... / -", "--. / .- / -.. / --. / . / -", 
+	/*9*/ "What is the name of the robot in the film Short Circuit?", "Johnny 5", "Alpha 5", "Babylon 5", "Abz from 5ive",
+	
+	/*10*/ "Who wrote 'The Odyssey'?", "Homer", "Bart", "Lisa", "Maggie",
+	],
 	
 	// Displays a question, if there is an unasked one still available.
 	selectAndDisplayQuestion: function() { 
@@ -434,7 +451,7 @@ var question = {
 	
 	// Display the selected question.
 	displayQuestion: function() {
-		elementID.questionText.innerHTML = "Question: " + questionList[question.ID*5];
+		elementID.questionText.innerHTML = "Question: " + question.questionList[question.ID*5];
 		elementID.questionContainer.style.display="block";
 	},
 	
@@ -445,7 +462,7 @@ var question = {
 	
 	// Returns true if there are unasked questions remaining. Otherwise returns false.
 	unaskedQuestionsExist: function() {
-		var noOfQuestions = questionList.length / 5;
+		var noOfQuestions = question.questionList.length / 5;
 		var i=0;
 		var count=0;
 		
@@ -465,7 +482,7 @@ var question = {
 	// Select a question at random, (which hasn't been asked already).
 	select: function() {
 		var questionHasBeenSelected = false;
-		var noOfQuestions = questionList.length / 5;
+		var noOfQuestions = question.questionList.length / 5;
 		
 		// If question number 'n ' is available (marked 'x'), set question.ID and make unavailable for future use (marked 'o').
 		while (questionHasBeenSelected == false) {
@@ -481,7 +498,7 @@ var question = {
 	
 	// Make all questions available to be asked.
 	setAllAllowed: function() {
-		var noOfQuestions = questionList.length / 5;
+		var noOfQuestions = question.questionList.length / 5;
 		var i=0;
 		
 		while(i < noOfQuestions) {
