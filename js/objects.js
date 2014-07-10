@@ -415,7 +415,7 @@ var question = {
 	allowed: [],
 	// Used for selecting a question from 'questions' to ask the player.
 	ID: '',
-	// [Question, Correct answer, Three Incorrect answers].
+	// Format is [Question, Correct answer, Three Incorrect answers].
 	// Add new questions and answers to the array. No further code modification required.
 	// Trailing comma on last line of array may cause a fit to be thrown in IE < 9 but is correct code.
 	questionList: [
