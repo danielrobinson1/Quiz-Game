@@ -359,7 +359,7 @@ var game = {
 	// Start executing the function handleTick at the specified period of miliseconds. Start decreaseBy1Second timer.
 	startTick: function() {
 		elementID.gameCanvas.style.cursor='none';
-		game.handleTickHold = setInterval(handleTick,25);
+		game.handleTickHold = setInterval(handleTick,50);
 		game.countdownHold = setInterval(timer.decreaseBy1Second,1000);
 	}
 };
@@ -605,12 +605,16 @@ var scoring = {
 	detectCollisions: function() {
 		var i = 0;
 		var numberOfBalls = ball.XPositions.length;
-	
+		
 		while (i < numberOfBalls) {
 			if (
 				(scoring.collisionLeftHasOccurred(i) || scoring.collisionRightHasOccurred(i)) && 
 				(scoring.collisionBottomHasOccurred(i) || scoring.collisionTopHasOccurred(i))
-			) {
+			) 
+			
+			// Move this to a new function. Have the detectCollisions function return true or false
+			// if a collision is detected.
+			{
 				scoring.updateNoCollected(i);
 				ball.remove(i);
 			}
@@ -623,7 +627,7 @@ var scoring = {
 		elementID.gameCanvas.getContext("2d").font = "16px Arial";
 		elementID.gameCanvas.getContext("2d").textBaseline = "top";
 		elementID.gameCanvas.getContext("2d").textAlign = "left";
-		elementID.gameCanvas.getContext("2d").fillText("Collected: " + scoring.noCollected,5,25);
+		elementID.gameCanvas.getContext("2d").fillText("Collected: " + Math.max(0,scoring.noCollected),5,25);
 	},
 	
 	// Display score (no: of questions correctly answered).
