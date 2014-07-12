@@ -1,78 +1,72 @@
-/* Objects are ordered alphabetically, and each contains 
-	-Variables in alphabetical order, followed by
-	-Functions in alphabetical order. */
-	
+
+var settings = {
+	// Probability that a ball is created on a given tick.
+	probabilityBallIsGenerated: 0.2,
+	// Determines max possible falling speed that balls may be assigned.
+	ballSpeedLimit: 5,
+	// Probability that a given ball, once created, is yellow.
+	probabilityBallID: 0.5,
+	// Number of seconds to appear on the timer when the game begins.
+	initialTimerValue: 60,
+	// Number of seconds to add to timer when a question is answered correctly.
+	timerTopupAmount: 10,
+	// No of balls to collect before a question is asked.
+	targetToCollect: 20,
+	// Image source for player 1. Multiple images used when player1.draw argument is set to "flash".
+	player1Src: ["img/blue.png", "img/white.png"],
+	// Image source for balls.
+	ballSrc: ["img/yellow.png","img/red.png"]
+};
 
 var answer = {
+	// Determines the order in which answers are assigned to the buttons
+	buttonOrderSequence: [],
+	// Stops user entering more than one answer. Value set to 1 after answer has been submitted
+	submitted: 0,
 	
-	buttonOrderSequence: [],   	// Array to hold the order in which the answers to the selected question are to appear - eg [2,1,3,4] answer 2 is assigned to the first button, and so on.
-	submitted: 0,				// Stops user entering more than one answer. Value set to 1 after answer has been submitted.	
-	
-	/*
-	 NAME answer.correct
-	 DESC Executed if user answers question correctly. Variable 'answer.submitted' 
-	  used to prevent more than one answer being entered. Div is revealed saying the answer 
-	  entered is correct. Score is increased and timer reset. After a pause, the game continues.
-	*/
-	
-	
-	
+	//Executed if user answers question correctly.
 	correct: function() {
-		
 		if (answer.submitted == 0) {
 			scoring.score++;
 			timer.topup();
 			elementID.answerCorrect.style.display="block";
 			answer.submitted = 1;
-			setTimeout(game.restartAfterQuestion,2000);
+			setTimeout(game.prepareForNextRound,2000);
 		}
 	},
-	/*
-	 NAME answer.incorrect
-	 DESC Executed if user answers question incorrectly. Variable 'answer.submitted' 
-	  used to prevent more than one answer being entered. Div is revealed saying the answer 
-	  entered is incorrect. After a pause, the game continues.
-	*/
+	
+	// Executed if user answers question incorrectly
 	incorrect: function() {
-		
 		if (answer.submitted == 0) {
 			elementID.answerIncorrect.style.display="block";
 			answer.submitted = 1;
-			setTimeout(game.restartAfterQuestion,2000);
+			setTimeout(game.prepareForNextRound,2000);
 		}
 	},
-	/*
-	 NAME answer.setOrder
-	 DESC Assign the four possible answers to the four buttons in a random order.
-	*/
+	
+	// Assign the four possible answers to the four buttons in a random order.
 	setOrder: function() {
 		answer.buttonOrderSequence = random.sequence(3);
 	}
 };
 
-
 var ball = {
-
-	ID: [],						// Determines type of ball: "yellow" or "red"
-	height: '',					// Assuming all types of ball have the same dimensions. Used in scoring.collisionBottom
+	// Determines type of ball: "yellow" or "red"
+	ID: [],
+	// Assuming all types of ball have the same dimensions. Used in scoring.collisionBottomHasOccurred
+	height: '',
 	numberOf: 0,
 	speed: [],
-	type1Image: new Image(),
-	type2Image: new Image(),
-	width: '',					// Assuming all types of ball have the same dimensions. Used in scoring.collisionTop
+	yellowBallImage: new Image(),
+	redBallImage: new Image(),
+	// Assuming all types of ball have the same dimensions. Used in scoring.collisionTopHasOccurred
+	width: '',
 	XPositions: [],
 	YPositions: [],
+	numberOfBalls: 0,
 	
-	/*
-	 NAME ball.generateBall
-	 DESC Generates new ball data (position, speed, type) according to a given probabilty 
-	  by adding new entries to the relevant arrays with 'push'.
-	 PARA probability - Defines the probability that a new ball is created.
-	 PARA speedLimit - ball speed is given by a random number between 0 and the variable speedLimit
-	  (i.e Math.random() is a nuber between 0 and 1).
-	*/
+	// Generates new ball data
 	generateBall: function(probability,speedLimit) {
-	
 		if (Math.random() < probability) {
 			ball.generateStartingCoordinates();
 			ball.generateStartingSpeed(speedLimit);
@@ -81,133 +75,113 @@ var ball = {
 		ball.numberOf = ball.XPositions.length;
 	},
 	
+	// Generates a random starting position for a new ball
 	generateStartingCoordinates: function() {
 		ball.XPositions.push(Math.random()*player1.rightBoundary);
 		ball.YPositions.push(-30);		
 	},
 	
+	// Assigns a speed to a new ball at random
 	generateStartingSpeed: function(upperLimit) {
 		ball.speed.push(Math.random()*upperLimit);
 	},
 	
+	// Assigns a type to a new ball, red or yellow
 	generateType: function() {
-		if (Math.random() < probabilityBallID) {
+		if (Math.random() < settings.probabilityBallID) {
 			ball.ID.push("yellow");
 		}
 		else ball.ID.push("red");
 	},
 	
-	/*
-	 NAME ball.draw
-	 DESC Increases y co-ordinate of the balls and draws them in new position.
-	*/
-	draw: function() {
+	//Set the value of ball.numberOfBalls to the number of balls in play
+	obtainCurrentNumberOfBallsInPlay: function() {
+		ball.numberOfBalls = ball.XPositions.length;
+	},
 	
-		var currentBallNumber = 0;
-		var numberOfBalls = ball.XPositions.length;
-	
-		// Increase y-co-ordinates of all balls
-		while (currentBallNumber < numberOfBalls) {
-			ball.YPositions[currentBallNumber] = ball.YPositions[currentBallNumber] + ball.speed[currentBallNumber];
-			currentBallNumber++;
-		}
-	
-		// Draw all balls in their new positions
-		currentBallNumber = 0;
-		while (currentBallNumber < numberOfBalls) {
-			if (ball.ID[currentBallNumber] == "yellow") {
-				elementID.gameCanvas.getContext("2d").drawImage(ball.type1Image, ball.XPositions[currentBallNumber], ball.YPositions[currentBallNumber]);
-			}
-			else if (ball.ID[currentBallNumber] == "red") {
-				elementID.gameCanvas.getContext("2d").drawImage(ball.type2Image, ball.XPositions[currentBallNumber], ball.YPositions[currentBallNumber]);
-			}
-			currentBallNumber++;
+	//Increments the y-coordinate of each ball in play
+	incrementYCoords: function() {
+		var currentBall = 0;
+		
+		while (currentBall < ball.numberOfBalls) {
+			ball.YPositions[currentBall] = ball.YPositions[currentBall] + ball.speed[currentBall];
+			currentBall++;
 		}
 	},
-	/*
-     NAME ball.remove
-     DESC Delete all array entries for ball with index a.
-     PARA n - Index of ball to be removed.
-    */
+	
+	// Draws each of the balls on the canvas
+	draw: function() {
+		var currentBall = 0;
+		
+		while (currentBall < ball.numberOfBalls) {
+			if (ball.ID[currentBall] == "yellow") {
+				elementID.gameCanvas.getContext("2d").drawImage(ball.yellowBallImage, ball.XPositions[currentBall], ball.YPositions[currentBall]);
+			}
+			else if (ball.ID[currentBall] == "red") {
+				elementID.gameCanvas.getContext("2d").drawImage(ball.redBallImage, ball.XPositions[currentBall], ball.YPositions[currentBall]);
+			}
+			currentBall++;
+		}
+	},
+
+	// Delete all array entries for ball with index a
 	remove: function(n) {
 		ball.XPositions.splice(n,1); 
 		ball.YPositions.splice(n,1);
 		ball.speed.splice(n,1);
 		ball.ID.splice(n,1);
 	},
-	/*
-     NAME ball.removeAll
-     DESC Clears the screen of balls by clearing all the relevant arrays.
-	*/
+	
+	// Clears the screen of balls by clearing all the relevant arrays
 	removeAll: function() {
 		ball.XPositions = [];
 		ball.YPositions = [];
 		ball.speed = [];
 		ball.ID = [];
 	},
-	/*
-	 NAME ball.setImage
-	 DESC Assign ball images.
-	*/
+	// Assign ball images
 	setImage: function() {
-		ball.type1Image.src = ballSrc[0];
-		ball.type2Image.src = ballSrc[1];
+		ball.yellowBallImage.src = settings.ballSrc[0];
+		ball.redBallImage.src = settings.ballSrc[1];
 	}
 };
 
-
 var button = {
 	
-	/*
-	 NAME button.assignAnswers
-	 DESC Assign the answers to the buttons
-	*/
+	// Assign the answers to the buttons
 	assignAnswers: function() {
-		elementID.buttonA.innerHTML = questionList[question.ID*5 + answer.buttonOrderSequence[0]];
-		elementID.buttonB.innerHTML = questionList[question.ID*5 + answer.buttonOrderSequence[1]];
-		elementID.buttonC.innerHTML = questionList[question.ID*5 + answer.buttonOrderSequence[2]];
-		elementID.buttonD.innerHTML = questionList[question.ID*5 + answer.buttonOrderSequence[3]];
+		elementID.buttonA.innerHTML = question.questionList[question.ID*5 + answer.buttonOrderSequence[0]];
+		elementID.buttonB.innerHTML = question.questionList[question.ID*5 + answer.buttonOrderSequence[1]];
+		elementID.buttonC.innerHTML = question.questionList[question.ID*5 + answer.buttonOrderSequence[2]];
+		elementID.buttonD.innerHTML = question.questionList[question.ID*5 + answer.buttonOrderSequence[3]];
 	},
-	/*
-	 NAME button.clickA
-	 DESC Executed when button A is clicked. Check whether the answer is correct.
-	*/
 	
+	// Executed when button A is clicked. Check whether the answer is correct
 	clickA: function() {
-		
 		if (answer.buttonOrderSequence[0]==1) {
 			answer.correct();
 		}
 		else answer.incorrect();
 	},
-	/*
-	 NAME button.clickB
-	 DESC Executed when button B is clicked. Check whether the answer is correct.
-	*/
+	
+	// Executed when button B is clicked. Check whether the answer is correct.
 	clickB: function() {
-		
 		if (answer.buttonOrderSequence[1]==1) {
 			answer.correct();
 		}
 		else answer.incorrect();
 	},
-	/*
-	 NAME button.clickC
-	 DESC Executed when button C is clicked. Check whether the answer is correct.
-	*/
+	
+	// Executed when button C is clicked. Check whether the answer is correct.
 	clickC: function() {
-		
 		if (answer.buttonOrderSequence[2]==1) {
 			answer.correct();
 		}
 		else answer.incorrect();
 	},
-	/*
-	 NAME button.clickD
-	 DESC Executed when button D is clicked. Check whether the answer is correct.
-	*/
+	
+	//Executed when button D is clicked. Check whether the answer is correct.
 	clickD: function() {
-		
 		if (answer.buttonOrderSequence[3]==1) {
 			answer.correct();
 		}
@@ -215,28 +189,31 @@ var button = {
 	}
 };
 
-
 var canvas = {
 	
 	height: 0,
-	initialClick: 0,	// Used to stop setInterval being called more than once via game.begin() if mouse is clicked a second time.
 	width: 0,
 
-	/*
-	 NAME canvas.clear
-	 DESC Clears the canvas.
-	*/
+	// Clears the canvas
 	clear: function() {
-
 		elementID.gameCanvas.width = canvas.width;
-	}
+	},
+	
+	// Set dimensions of the canvas. Need to subtract 2, taking 1px border into account.
+	setDimensions: function() {
+		canvas.height = elementID.gameCanvas.offsetHeight - 2;
+		canvas.width = elementID.gameCanvas.offsetWidth - 2;
+	},
+	
+	// Set boundaries to prevent player1 (image size 30px x 33px) going off canvas
+	setPlayer1Boundaries: function() {
+		player1.rightBoundary = canvas.width - 30;
+		player1.bottomBoundary = canvas.height - 33;
+	},
 };
 
-
 var elementID = {	
-	// HTML elements. Initialized by game.prepare() when HTML file is loaded. Used instead of document.getElementById("")
-	// Look into jquery, where $() can be used for exactly this purpose.
-	
+
 	answerButtons: '',
 	answerCorrect: '',
 	answerIncorrect: '',
@@ -249,46 +226,11 @@ var elementID = {
 	instructions: '',
 	name: '',
 	questionContainer: '',
-	questionText: ''
-};
-
-
-var game = {
+	questionText: '',
 	
-	//Variables used to store return values of setInterval in game.startTick().
-	handleTickHold: '',		
-	countdownHold: '',
-	tickCounter: 0,
-
-	/*
-	 NAME game.begin
-	 DESC Tasks to be performed when user first clicks the canvas to begin the game. 
-	*/
-	begin: function() {
-		
-		if (canvas.initialClick == 0) {	
-		
-			// Set image dimensions used for collision detection
-			// Tried including this in game.prepare(); but nothing happened when the player1 collided with a ball
-			// when first opening the game in the browser. However after refreshing the browser, the game then worked as normal!
-			player1.height = player1.image.height;
-			player1.width = player1.image.width;
-			ball.height = ball.type1Image.height;		// Assuming that all different ball types have the same dimension.
-			ball.width = ball.type1Image.width;
-			
-			elementID.gameCanvas.addEventListener('mousemove',player1.handleMouseMovement, false);	
-			game.startTick();
-			canvas.initialClick = 1;
-		}	
-	},
-	/*
-	 NAME game.prepare
-	 DESC Tasks to be performed when the HTML file is loaded in the browser.
-	*/  
-	prepare: function() {
-	
-		//Initialize shortcuts to be used instead of document.getElementById.
-		//Note this can be better acheived with jquery using $().
+	//Initialize shortcuts to be used instead of document.getElementById.
+	//Note this can be better acheived with jquery using $().
+	setShorthands: function() {
 		elementID.answerButtons = document.getElementById("answerButtons");
 		elementID.answerCorrect = document.getElementById("answerCorrect");
 		elementID.answerIncorrect = document.getElementById("answerIncorrect");
@@ -302,84 +244,125 @@ var game = {
 		elementID.name = document.getElementById("name");
 		elementID.questionContainer = document.getElementById("questionContainer");
 		elementID.questionText = document.getElementById("questionText");
-		
-		elementID.instructions.innerHTML = 
-		"<p>Compatible with  Chrome v28, Internet Explorer v10, Firefox v27 and Opera v15</p>" + 
-		"<p><strong>Instructions:</strong> Collect " + targetToCollect + " yellow to unlock a question. " + "Avoid the red!</p>";
-		
-		// Get Canvas dimensions from HTML file. Subtract 2, taking 1px border into account
-		canvas.height = elementID.gameCanvas.offsetHeight - 2;
-		canvas.width = elementID.gameCanvas.offsetWidth - 2;
-		
-		// Set boundaries to prevent player1 (size 30px x 33px) going off canvas
-		player1.rightBoundary = canvas.width - 30;
-		player1.bottomBoundary = canvas.height - 33;
-		
-		// Set width of question box - Is this needed?
-		//elementID.questionContainer.style.width=canvas.width*9/10;
-		
-		// Assign image sources.
+	},
+};
+
+var game = {
+	
+	//Variables used to store return values of setInterval in game.startTick().
+	handleTickHold: '',		
+	countdownHold: '',
+	tickCounter: 0,
+	initialClick: 0,
+
+	// Tasks to be performed when user first clicks the canvas to begin the game. 
+	begin: function() {
+		if (game.hasNotBegun) {
+			game.ignoreFurtherMouseClicks();
+			game.setPlayer1Dimensions();
+			game.setBallDimensions();
+			game.addEventListenerForMouseMovement();			
+			game.startTick();
+		}
+	},
+	
+	// Returns true if player has not yet clicked the screen to begin the game, false otherwise.
+	hasNotBegun: function() {
+		if (game.initialClick == 0) {
+			return true;
+		}
+		else if (game.initialClick == 1) {
+			return false;
+		}
+	},
+	
+	// Prevent further calls of game.begin() via clicking of the canvas.
+	ignoreFurtherMouseClicks: function() {
+		game.initialClick = 1;
+	},
+	
+	// Obtain the dimensions of the player1 image to be used for collision detection.
+	setPlayer1Dimensions: function() {
+		player1.height = player1.image.height;
+		player1.width = player1.image.width;		
+	},
+	
+	// Obtain the dimensions of the player1 image to be used in collision detection.
+	setBallDimensions: function() {
+		ball.height = ball.yellowBallImage.height;		
+		ball.width = ball.yellowBallImage.width;	
+	},
+	
+	// Add event listener to deal with movement of player1 by mouse.
+	addEventListenerForMouseMovement: function() {
+		elementID.gameCanvas.addEventListener('mousemove',player1.setCoordinates, false);
+	},
+	
+	// Tasks to be performed when the page is loaded in the browser.  
+	prepare: function() {
+		elementID.setShorthands();
+		game.setTextForInstructionsElement();
+		canvas.setDimensions();
+		canvas.setPlayer1Boundaries();
 		player1.setImage();
 		ball.setImage();
-		
-		// Startscreen text.
+		game.displayStartScreenText();
+		question.setAllAllowed();
+	},
+
+	// Set the text to be displayed in the 'instructions' div element.
+	setTextForInstructionsElement: function() {
+		elementID.instructions.innerHTML = 
+		"<p>Compatible with  Chrome v28, Internet Explorer v10, Firefox v27 and Opera v15</p>" + 
+		"<p><strong>Instructions:</strong> Collect " + 
+		settings.targetToCollect + 
+		" yellow to unlock a question. " + "Avoid the red!</p>";
+	},
+	
+	// Display start screen text on the canvas.
+	displayStartScreenText: function() {
 		elementID.gameCanvas.getContext("2d").font = "16px Arial";
 		elementID.gameCanvas.getContext("2d").textBaseline = "center";
 		elementID.gameCanvas.getContext("2d").textAlign = "center";
 		elementID.gameCanvas.getContext("2d").fillText("Click screen to start new game",canvas.width / 2,canvas.height / 2);
-		
-		// Set all questions to allowed - Any question may be chosen first time around. Once a question it will not be asked again until a new game is started.
-		question.setAllAllowed();
 	},
-	/*
-	 NAME game.pauseTick
-	 DESC Pauses the game.
-	*/
-	pauseTick: function() {
-
+	
+	//Pauses the game.
+	pause: function() {
 		clearInterval(game.handleTickHold);
 		clearInterval(game.countdownHold);
 	},
-	/*
-	 NAME game.restartAfterQuestion
-	 DESC After user enters answer to question
-	*/
-	restartAfterQuestion: function() {
+	
+	// Tasks to perform after player enters an answer to a question.
+	prepareForNextRound: function() {
 		ball.removeAll();
 		scoring.resetNoCollected();
 		elementID.answerIncorrect.style.display="none";
 		elementID.answerCorrect.style.display="none";
 		elementID.questionContainer.style.display="none";
-		
 		canvas.clear();
-		
+		game.displayGetReadyScreen();
+		scoring.displayScore();
+		scoring.displayNoCollected();
+		timer.display();
+		setTimeout(game.startTick,2000);
+	},
+	
+	// Display text 'Get Ready'.
+	displayGetReadyScreen: function() {
 		elementID.gameCanvas.getContext("2d").font = "16px Arial";
 		elementID.gameCanvas.getContext("2d").textBaseline = "center";
 		elementID.gameCanvas.getContext("2d").textAlign = "center";
 		elementID.gameCanvas.getContext("2d").fillText("Get Ready!",canvas.width/2,canvas.height/2);
-		
-		scoring.displayScore();
-		scoring.displayNoCollected();
-		timer.display();
-		
-		setTimeout(game.startTick,2000);
 	},
-	/*
-	 NAME game.startTick
-	 DESC Start executing the function handleTick at the specified period of miliseconds.
-	  Start countdown timer and change value of canvas.initialClick to prevent any further calls 
-	  of the setInterval commands via the function game.begin(). Failing to change canvas.initialClick, 
-	  would mean that any accidental mouse clicks increase the speed of the game.
-	*/
+	
+	// Start executing the function handleTick at the specified period of miliseconds. Start decreaseBy1Second timer.
 	startTick: function() {
-		
-		//elementID.gameCanvas.addEventListener('mousemove',player1.handleMouseMovement, false);	
 		elementID.gameCanvas.style.cursor='none';
-		game.handleTickHold = setInterval(handleTick,25);
-		game.countdownHold = setInterval(timer.countdown,1000);
+		game.handleTickHold = setInterval(handleTick,50);
+		game.countdownHold = setInterval(timer.decreaseBy1Second,1000);
 	}
 };
-
 
 var player1 = {
 
@@ -392,13 +375,9 @@ var player1 = {
 	X: 0,
 	Y: 0,
 	
-	/* 
-	 NAME player1.draw
-	 DESC Draw player1 at co-ordinates (player1.X, player1.Y) which are defined 
-	  by the mouse coordinates in the function handleMouseMovement().
-	 PARA - "state" - Same image source used each tick.
-	 PARA - "flash" - Image source is alternated to create flasing effect.
-	*/
+	// Draw player1 at co-ordinates (player1.X, player1.Y) which are defined by the mouse coordinates in the function setCoordinates().
+	// PARA - "state" - Same image source used each tick.
+	// PARA - "flash" - Image source is alternated to create flasing effect.
 	draw: function(state,speed) {
 	
 		// Set argument defaults in case undefined.
@@ -409,93 +388,79 @@ var player1 = {
 			speed=5;
 		}
 		
-		// Define options for argument "state".
-		var twiceSpeed = 2*speed;
-		
+		// Options for argument "state".	
 		if (state=="solid") {
-		
 			elementID.gameCanvas.getContext("2d").drawImage(player1.image, player1.X, player1.Y);
 		}
 		
 		if (state=="flash") {
-		
-			// Select image source based on value of "speed".
-			if(game.tickCounter % twiceSpeed < speed) {
-				player1.image.src = player1Src[0];
+			if(game.tickCounter % 2*speed < speed) {
+				player1.image.src = settings.player1Src[0];
 			}
 			else { 
-				player1.image.src = player1Src[1];
+				player1.image.src = settings.player1Src[1];
 			}
-			// Draw.
 			elementID.gameCanvas.getContext("2d").drawImage(player1.image, player1.X, player1.Y);
 		}
 	},
-	/*
-	 NAME player1.handleMouseMovement
-	 DESC Allows player1 to be controlled by the mouse and prevents player1 going off canvas. 
-	   OffsetX doesn't work in Firefox 22.0 so layerX mst be used instead.
-	 PARA mouseEvent
-	*/
-	handleMouseMovement: function(mouseEvent) {
-		
-		var x = mouseEvent.offsetX==undefined?mouseEvent.layerX:mouseEvent.offsetX; 
-		var y = mouseEvent.offsetY==undefined?mouseEvent.layerY:mouseEvent.offsetY;
+
+	
+	// Pairs player1 co-ordinates with the mouse co-ordinates. 
+	setCoordinates: function(mouseEvent) {
+		// OffsetX doesn't work in Firefox 22.0 so layerX mst be used instead.
+		var mouseX = mouseEvent.offsetX==undefined?mouseEvent.layerX:mouseEvent.offsetX; 
+		var mouseY = mouseEvent.offsetY==undefined?mouseEvent.layerY:mouseEvent.offsetY;
 				
-		// Set avatar.X
-		if (x < player1.rightBoundary) {
-			player1.X = x;
+		if (mouseX < player1.rightBoundary) {
+			player1.X = mouseX;
 		}
 		else player1.X = player1.rightBoundary;
 		
-		// Set avatar.Y
-		if (y < player1.bottomBoundary) {
-			player1.Y = y;
+		if (mouseY < player1.bottomBoundary) {
+			player1.Y = mouseY;
 		}
 		else player1.Y = player1.bottomBoundary;
-		
-		
-		
-		// Set player1.X
-		//if (mouseEvent.offsetX < player1.rightBoundary) {
-		//	player1.X = mouseEvent.offsetX;
-		//}
-		//else player1.X = player1.rightBoundary;
-		//
-		// Set player1.Y
-		//if (mouseEvent.offsetY < player1.bottomBoundary) {
-		//	player1.Y = mouseEvent.offsetY;
-		//}
-		//else player1.Y = player1.bottomBoundary;
 	},
-	/*
-	 NAME player1.setImage
-	 DESC Assign player1 image.
-	*/
+	
+	// Assign player1 image.
 	setImage: function() {
-		player1.image.src = player1Src[0];
+		player1.image.src = settings.player1Src[0];
 	}
 };
 
-
 var question = {
 	
-	allowed: [], 		// When the game is loaded in the browser, this array is populated with an 'x' for each question in the variable 'questionList'. Once a question is asked, the corresponding 'x' is replaced with an 'o' to prevent it from being asked again.
-	ID: '',				// Used for selecting a question from 'questions' to ask the player.
+	// When the game is loaded, the array 'allowed' is populated with an 'x' for each question in 'questionList'. 
+	// Once a question has been asked, the corresponding 'x' is replaced with an 'o' to prevent it from being asked again.
+	allowed: [],
+	// Used for selecting a question from 'questions' to ask the player.
+	ID: '',
+	// Format is [Question, Correct answer, Three Incorrect answers].
+	// Add new questions and answers to the array. No further code modification required.
+	// Trailing comma on last line of array may cause a fit to be thrown in IE < 9 but is correct code.
+	questionList: [
+	/*0*/ "What is 2+2?", "4","0","1","2", 
+	/*1*/ "What is the capital of England?", "London","Leeds","Manchester","E",
+	/*2*/ "What is the biggest planet in the solar system?", "Jupiter","Pluto","Earth","Goofy",
+	/*3*/ "What is the highest mountain in the world?", "Mt Everest", "Kilimanjaro", "Ben Nevis", "Mont Blanc",
+	/*4*/ "How many seconds are there in one day?", "86400", "72600", "64800", "48200",
+	/*5*/ "What is the German for goodbye?", "Auf wiedersehen", "Bonjour", "Danke", "Fromage",
+	/*6*/ "Who is the president of the U.S.A?", "Barrack Obama", "B.A. Baracus", "Bacchus", "Buck Rogers",
+	/*7*/ "Who was the first man on the moon?", "Neil Armstrong", "Lance Armstrong", "Louis Armstrong", "Stretch Armstrong",
+	/*8*/ "Spell 'Morse' in Morse code.", "-- / --- / .-. / ... / .", ".-.. / . / .-- / .. / ...", "..-. / .-. / --- / ... / -", "--. / .- / -.. / --. / . / -", 
+	/*9*/ "What is the name of the robot in the film Short Circuit?", "Johnny 5", "Alpha 5", "Babylon 5", "Abz from 5ive",
 	
-	/*
-	 NAME question.display
-	 DESC Displays a question, if there is an unasked one still available, by revealing the previously 
-	  hidden Div 'questionContainer'. If there are no questions remaining, the page is reloaded prompting 
-	  a new game to be started.
-	*/
-	display: function() { 
-		if (question.exists()) {
+	/*10*/ "Who wrote 'The Odyssey'?", "Homer", "Bart", "Lisa", "Maggie",
+	],
+	
+	// Displays a question, if there is an unasked one still available.
+	selectAndDisplayQuestion: function() { 
+		if (question.unaskedQuestionsExist()) {
 			question.select();
 			answer.setOrder();
-			elementID.questionText.innerHTML = "Question: " + questionList[question.ID*5];
 			button.assignAnswers();
-			elementID.questionContainer.style.display="block";
-			elementID.gameCanvas.style.cursor='auto';
+			question.displayQuestion();
+			question.displayCursor();
 			answer.submitted = 0;
 		}
 		else {
@@ -503,16 +468,24 @@ var question = {
 			location.reload();
 		}
 	},
-	/*
-	 NAME question.exists
-	 DESC Returns true if there are unasked questions remaining. Otherwise returns false.
-	*/
-	exists: function() {
-		var noOfQuestions = questionList.length / 5;
+	
+	// Display the selected question.
+	displayQuestion: function() {
+		elementID.questionText.innerHTML = "Question: " + question.questionList[question.ID*5];
+		elementID.questionContainer.style.display="block";
+	},
+	
+	// Make cursor visible.
+	displayCursor: function() {
+		elementID.gameCanvas.style.cursor='auto';
+	},
+	
+	// Returns true if there are unasked questions remaining. Otherwise returns false.
+	unaskedQuestionsExist: function() {
+		var noOfQuestions = question.questionList.length / 5;
 		var i=0;
 		var count=0;
 		
-		// Count number of questions already asked.
 		while (i<noOfQuestions) {
 			if (question.allowed[i]=="o") {
 				count++;
@@ -525,32 +498,27 @@ var question = {
 		}
 		else return true;
 	},
-	/*
-	 NAME question.select
-	 DESC Select a question at random, which hasn't been asked already.
-	*/
+	
+	// Select a question at random, (which hasn't been asked already).
 	select: function() {
-		var setQuestionCompleted = 0;
-		var noOfQuestions = questionList.length / 5;
+		var questionHasBeenSelected = false;
+		var noOfQuestions = question.questionList.length / 5;
 		
-		// If question number n is available (marked x) set question.ID and make unavailable for future use (marked o).
-		while (setQuestionCompleted == 0) {
+		// If question number 'n ' is available (marked 'x'), set question.ID and make unavailable for future use (marked 'o').
+		while (questionHasBeenSelected == false) {
 			var n = random.integer(noOfQuestions-1);
 			
 			if (question.allowed[n] == "x") {
 				question.ID = n;
 				question.allowed[n] = "o";
-				setQuestionCompleted = 1;
+				questionHasBeenSelected = true;
 			}
 		}
 	},
-	/*
-	 NAME question.setAllAllowed
-	 DESC Populates entries of array question.allowed with an 'x' for each question.
-	  The 'x' wil become an 'o' once that question has been asked to prevent it being asked again.
-	*/
+	
+	// Make all questions available to be asked.
 	setAllAllowed: function() {
-		var noOfQuestions = questionList.length / 5;
+		var noOfQuestions = question.questionList.length / 5;
 		var i=0;
 		
 		while(i < noOfQuestions) {
@@ -560,35 +528,25 @@ var question = {
 	}
 };
 
-
 var random = {
 
-	/*
-	 NAME random.integer
-	 DESC Pick a random integer between 0 and x.
-	 PARA x - Max integer that will be returned.
-	 RETN The randomly chosen integer.
-	*/
-	integer: function(x) {
-		var y = x+1;
+	// Pick a random integer between 0 and and the parameter n.
+	integer: function(n) {
+		var m = n+1;
 		
-		return Math.floor((Math.random()*y)); 
+		return Math.floor((Math.random()*m)); 
 	},
-	/*
-	 NAME random.sequence
-	 DESC Randomly orders the integers from 0 to x.
-	 PARA x - The highest integer in the sequence.
-	 RETN Array with the randomly ordered integers. 
-	*/
-	sequence: function(x) {
-		var i=x;
+	
+	// Randomly orders the integers from 0 to the parameter n.
+	sequence: function(n) {
+		var i=n;
 		var oneToFour = [1,2,3,4];
 		var result=[];
 		
 		while (i > -1) {
-			var y = random.integer(i);
-			result.push(oneToFour[y]);
-			oneToFour.splice(y,1);
+			var r = random.integer(i);
+			result.push(oneToFour[r]);
+			oneToFour.splice(r,1);
 			i --;
 		}
 		
@@ -596,52 +554,44 @@ var random = {
 	}
 };
 
-
 var scoring = {
 	
 	score: 0,
 	noCollected: 0,
 	
-	collisionLeft: function(n) {
-	// Check if player1 hits left side of ball.
-	
+	// Check for collisions between player1 and left side of nth ball.
+	collisionLeftHasOccurred: function(n) {
 		if (player1.X < ball.XPositions[n] && ball.XPositions[n] < player1.X + player1.width) {
-		
 			return true;
 		}
 		else return false;
 	},
 	
-	collisionRight: function(n) {
-	// Check if player1 hits right side of ball.
-		
+	// Check for collisions between player1 and right side of nth ball.
+	collisionRightHasOccurred: function(n) {		
 		if (ball.XPositions[n] < player1.X && player1.X < ball.XPositions[n] + ball.width) {
-		
 			return true;
 		}
 		else return false;
 	},
 	
-	collisionTop: function(n) {
-	// Check if player1 hits top side of ball.
-	
+	// Check for collisions between player1 and top side of nth ball.
+	collisionTopHasOccurred: function(n) {
 		if (player1.Y < ball.YPositions[n] && ball.YPositions[n] < player1.Y + player1.height) {
-		
 			return true;
 		}
 		else return false;
 	},
 	
-	collisionBottom: function(n) {
-	// Check if player1 hits bottom side of ball.
-	
+	// Check for collisions between player1 and bottom side of nth ball.
+	collisionBottomHasOccurred: function(n) {	
 		if (ball.YPositions[n] < player1.Y && player1.Y < ball.YPositions[n] + ball.height) {
-		
 			return true;
 		}
 		else return false;
 	},
 		
+	// Increase or decrease the value of scoring.noCollected.
 	updateNoCollected: function(n) {
 		if (ball.ID[n] == "yellow") {
 			scoring.noCollected++;
@@ -650,83 +600,70 @@ var scoring = {
 			scoring.noCollected--;
 		}
 	},
-	/*
-	 NAME scoring.detectCollisions
-	 DESC Loop through each ball in turn and check whether the player1 overlaps it.
-	  If so check which type of ball has been hit and increase/ decrease noCollected as necessary.
-	*/
+	
+	// Detect collisions, update noCollected and remove any balls collected.
 	detectCollisions: function() {
-
 		var i = 0;
 		var numberOfBalls = ball.XPositions.length;
-	
+		
 		while (i < numberOfBalls) {
-			if ( 
-				( scoring.collisionLeft(i) || scoring.collisionRight(i) ) 
-				&& 
-				( scoring.collisionBottom(i) || scoring.collisionTop(i) ) 
-			) {
+			if (
+				(scoring.collisionLeftHasOccurred(i) || scoring.collisionRightHasOccurred(i)) && 
+				(scoring.collisionBottomHasOccurred(i) || scoring.collisionTopHasOccurred(i))
+			) 
+			
+			// Move this to a new function. Have the detectCollisions function return true or false
+			// if a collision is detected.
+			{
 				scoring.updateNoCollected(i);
 				ball.remove(i);
 			}
 			i++;
 		} 
-	},	
-	/*
-	 NAME scoring.displayNoCollected 
-	 DESC Display no: of yellow balls collected. 
-	*/
+	},
+	
+	// Display no: of yellow balls collected in current round, (minus any red balls collected).
 	displayNoCollected: function() {
 		elementID.gameCanvas.getContext("2d").font = "16px Arial";
 		elementID.gameCanvas.getContext("2d").textBaseline = "top";
 		elementID.gameCanvas.getContext("2d").textAlign = "left";
-		elementID.gameCanvas.getContext("2d").fillText("Collected: " + scoring.noCollected,5,25);
+		elementID.gameCanvas.getContext("2d").fillText("Collected: " + Math.max(0,scoring.noCollected),5,25);
 	},
-	/*
-	 NAME scoring.displayScore
-	 DESC Display score (no of questions correctly answered). 
-	*/
+	
+	// Display score (no: of questions correctly answered).
 	displayScore: function() {
 		elementID.gameCanvas.getContext("2d").font = "16px Arial";
 		elementID.gameCanvas.getContext("2d").textBaseline = "top";
 		elementID.gameCanvas.getContext("2d").textAlign = "left";
 		elementID.gameCanvas.getContext("2d").fillText("Score: " + scoring.score,5,5);
 	},
-	/*
-	 NAME scoring.resetNoCollected
-	 DESC Reset noCollected to zero.
-	*/
+	
+	// Reset noCollected to zero ready for a new round.
 	resetNoCollected: function() {
 		scoring.noCollected = 0;
 	}
 };
 
-
 var timer = {
 	
-	time: initialTimerValue,
+	timeRemaining: settings.initialTimerValue,
 	
-	/*
-	 NAME timer.countdown
-	 DESC Decrease timer by 1 second. 
-	*/
-	countdown: function() {
-		timer.time--;
+	// Decrease timer by 1 second. 
+	decreaseBy1Second: function() {
+		timer.timeRemaining--;
 	},
-	/*
-	 NAME timer.display
-	 DESC Display current time remaining. 
-	*/
-	display: function() {
 	
+	// Display current time remaining. 
+	display: function() {
 		elementID.gameCanvas.getContext("2d").font = "16px Arial";
 		elementID.gameCanvas.getContext("2d").textBaseline = "top";
 		elementID.gameCanvas.getContext("2d").textAlign = "left";
-		elementID.gameCanvas.getContext("2d").fillText("Time: " + Math.max(0,timer.time),5,45);		//Prevent timer displaying "-1";
+		elementID.gameCanvas.getContext("2d").fillText("Time: " + Math.max(0,timer.timeRemaining),5,45);
 	},
+	
+	// Add time to the timer but never allow it to be topped up above it's initial value.
 	topup: function () {
-		
-		timer.time = Math.min(timer.time + timerTopupAmount, initialTimerValue);
+		timer.timeRemaining = Math.min(timer.timeRemaining + settings.timerTopupAmount, settings.initialTimerValue);
 	}
 };
 
