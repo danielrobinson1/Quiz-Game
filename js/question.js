@@ -1,4 +1,4 @@
-define(["button", "global", "random"], function(button, global, random){	
+define(["global", "random"], function(global, random){	
 	// When the game is loaded, the array 'allowed' is populated with an 'x' for each question in 'questionList'. 
 	// Once a question has been asked, the corresponding 'x' is replaced with an 'o' to prevent it from being asked again.
 	var allowed = [];
@@ -13,7 +13,7 @@ define(["button", "global", "random"], function(button, global, random){
 		if (unaskedQuestionsExist()) {
 			select();
 			setOrder();
-			button.assignAnswers();
+			assignAnswers();
 			displayQuestion();
 			displayCursor();
 			global.submitted = 0;
@@ -27,6 +27,15 @@ define(["button", "global", "random"], function(button, global, random){
 	// Assign the four possible answers to the four buttons in a random order.
 	var setOrder = function() {
 		global.buttonOrderSequence = random.sequence(3);
+	};
+	
+	// Assign the answers to the buttons
+	var assignAnswers = function() {
+		console.log(global.questionID);
+		global.buttonA.innerHTML = global.questionList[global.questionID*5 + global.buttonOrderSequence[0]];
+		global.buttonB.innerHTML = global.questionList[global.questionID*5 + global.buttonOrderSequence[1]];
+		global.buttonC.innerHTML = global.questionList[global.questionID*5 + global.buttonOrderSequence[2]];
+		global.buttonD.innerHTML = global.questionList[global.questionID*5 + global.buttonOrderSequence[3]];
 	};
 	
 	// Display the selected question.

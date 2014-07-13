@@ -1,12 +1,4 @@
 define(["global", "answer"], function(global, answer){	
-// Assign the answers to the buttons
-	var assignAnswers = function() {
-		console.log(global.questionID);
-		global.buttonA.innerHTML = global.questionList[global.questionID*5 + global.buttonOrderSequence[0]];
-		global.buttonB.innerHTML = global.questionList[global.questionID*5 + global.buttonOrderSequence[1]];
-		global.buttonC.innerHTML = global.questionList[global.questionID*5 + global.buttonOrderSequence[2]];
-		global.buttonD.innerHTML = global.questionList[global.questionID*5 + global.buttonOrderSequence[3]];
-	};
 	
 	// Executed when button A is clicked. Check whether the answer is correct
 	var clickA = function() {
@@ -41,7 +33,6 @@ define(["global", "answer"], function(global, answer){
 	};
 	
 	return{
-		assignAnswers: assignAnswers,
 		clickA: clickA,
 		clickB: clickB,
 		clickC: clickC,
