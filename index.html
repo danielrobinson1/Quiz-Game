@@ -4,8 +4,7 @@
 	<head>
 		<title>Quiz Game</title>
 		
-		<script src="js/main.js"></script>
-		<script src="js/objects.js"></script>
+		<script data-main="js/main" src="js/vendor/require.js"></script> 
 		
 		<!-- START OF HIT COUNTER CODE from 000webhost.com-->
 			<script language="JavaScript">
@@ -26,7 +25,7 @@
 		<link href = 'http://fonts.googleapis.com/css?family=Iceland' rel='stylesheet' type='text/css'> 
 	</head>
 	
-	<body onload="game.prepare();">
+	<body>
 	
 		<div id="container">
 		
@@ -38,17 +37,17 @@
 			<!-- Parent container for both "gameCanvas" and "questionContainer". 
 				Enures that offsetX and layerX are equivalent in player1.handleMouseMovement.
 			-->
-				<canvas id="gameCanvas" onclick="game.begin();" width="800px" height="400px"></canvas>
+				<canvas id="gameCanvas" width="800px" height="400px"></canvas>
 		
 				<div id="questionContainer" style="display:none;">
 				
 					<div id="questionText" style="display:block;"></div>
 					
 					<div id="answerButtons" style="display:block;">
-						<button id="buttonA" onclick="button.clickA()"></button>
-						<button id="buttonB" onclick="button.clickB()"></button>
-						<button id="buttonC" onclick="button.clickC()"></button>
-						<button id="buttonD" onclick="button.clickD()"></button>
+						<button id="buttonA"></button>
+						<button id="buttonB"></button>
+						<button id="buttonC"></button>
+						<button id="buttonD"></button>
 					
 						<div id="answerIncorrect" style="display:none">That's incorrect :(</div>
 						<div id="answerCorrect" style="display:none">You are correct!</div>
