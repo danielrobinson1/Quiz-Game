@@ -1,6 +1,6 @@
 Quiz Game
 =========
-Project website: http://danielmarkrobinson.netne.net/
+Project website: http://danielrobinson1.github.io/Quiz-Game
 
 A simple quiz game using HTML5 and Javascript. 
 The player controls the blue ball by moving the mouse and must collect 20 yellow balls to unlock a question.
